@@ -7,6 +7,7 @@ class SharedPre {
   static const String token = "Token";
   static const String userid = "UserId";
   static const String userTypeid = "UserTypeId";
+  static const String storeCode = "StoreCode";
 
 //CustomerId
   static setCustomerId(String val) async {
@@ -123,5 +124,24 @@ class SharedPre {
   static removeUserTypeid() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.remove(userTypeid);
+  }
+
+  //storecode
+  static setStoreCode(String val) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.reload();
+
+    await pref.setString(storeCode, val);
+  }
+
+  static getStoreCode() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    // await pref.reload();
+    return pref.getString(storeCode);
+  }
+
+  static removeStoreCode() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.remove(storeCode);
   }
 }

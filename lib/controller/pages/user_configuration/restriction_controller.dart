@@ -1,6 +1,7 @@
 import 'package:flowkit/controller/my_controller.dart';
 import 'package:flowkit/helpers/widgets/my_form_validator.dart';
 import 'package:flowkit/services/pages/user_configuration/addRestriction_api.dart';
+import 'package:flowkit/services/pages/user_configuration/delete_restriction_api.dart';
 import 'package:flowkit/services/pages/user_configuration/getRestriction.dart';
 import 'package:flowkit/services/pages/user_configuration/updateRestriction_api.dart';
 import 'package:flowkit/widgets/alertdialog_box.dart';
@@ -33,6 +34,50 @@ class RestrictionController extends MyController {
         required: true, controller: TextEditingController());
     basicValidator.addField("remarks",
         required: true, controller: TextEditingController());
+    update();
+  }
+
+  clearData() {
+    basicValidator
+        .getController(
+          "code",
+        )!
+        .text = '';
+    basicValidator
+        .getController(
+          "usertype",
+        )!
+        .text = '';
+    basicValidator
+        .getController(
+          "ip",
+        )!
+        .text = '';
+    basicValidator
+        .getController(
+          "ssid",
+        )!
+        .text = '';
+    basicValidator
+        .getController(
+          "longitude",
+        )!
+        .text = '';
+    basicValidator
+        .getController(
+          "latitude",
+        )!
+        .text = '';
+    basicValidator
+        .getController(
+          "distance",
+        )!
+        .text = '';
+    basicValidator
+        .getController(
+          "remarks",
+        )!
+        .text = '';
     update();
   }
 
@@ -126,6 +171,7 @@ class RestrictionController extends MyController {
 
   validateUpdateFianl() async {
     isLoadUpdated = true;
+    isLoadAdd = false;
     update();
     if (formkey.currentState!.validate()) {
       Map<String, dynamic> data = basicValidator.getData();
@@ -138,7 +184,7 @@ class RestrictionController extends MyController {
       String restrictionData = valueUsertype!.contains('IP')
           ? "${data["ip"]}"
           : valueUsertype!.contains('Location')
-              ? "${data["longitude"]},${data["latitude"]}${data["distance"]}"
+              ? "${data["longitude"]},${data["latitude"]},${data["distance"]}"
               : data["ssid"];
       String remarks = data["remarks"];
       await UpdaterestrictionApi.callapi(
@@ -152,14 +198,42 @@ class RestrictionController extends MyController {
             callRestrictionApi();
           });
         } else if (onValue.stcode! <= 410 && onValue.stcode! >= 400) {
+          isLoadUpdated = false;
+          isLoadAdd = false;
+          update();
           Get.dialog(
               AlertBox(msg: "${onValue.message} ${onValue.exception}..!!"));
         } else {
           Get.dialog(AlertBox(msg: "${onValue.exception}..!!"));
+          isLoadUpdated = false;
+          isLoadAdd = false;
+          update();
         }
       });
     }
     isLoadUpdated = false;
     update();
+  }
+
+  deleteApi(
+    int id,
+  ) async {
+    await DeleteRestrictionApi.callapi(id).then((onValue) {
+      if (onValue.stcode! <= 210 && onValue.stcode! >= 200) {
+        Get.dialog(AlertBox(
+          msg: 'Sucessfully Deleted..!!',
+        )).then((onValue) {
+          callRestrictionApi();
+        });
+      } else if (onValue.stcode! <= 410 && onValue.stcode! >= 400) {
+        Get.dialog(AlertBox(
+          msg: '${onValue.message} ${onValue.exception}..!!',
+        ));
+      } else {
+        Get.dialog(AlertBox(
+          msg: '${onValue.exception}..!!',
+        ));
+      }
+    });
   }
 }

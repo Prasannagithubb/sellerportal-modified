@@ -34,6 +34,9 @@ class UpdaterestrictionApi {
   }
 
   factory UpdaterestrictionApi.fromJson(Responce res) {
+    print(res.responceBody);
+    print(res.resCode);
+
     if (res.resCode! <= 210 && res.resCode! >= 200) {
       Map<String, dynamic> jsons = jsonDecode(res.responceBody!.toString());
 
@@ -51,13 +54,21 @@ class UpdaterestrictionApi {
             exception: null);
       }
     } else if (res.resCode! <= 410 && res.resCode! >= 400) {
-      var jsons = jsonDecode(res.responceBody!);
+      if (res.responceBody!.isEmpty) {
+        return UpdaterestrictionApi(
+            message: "404",
+            status: null,
+            stcode: res.resCode,
+            exception: "Something went wrong..!!");
+      } else {
+        var jsons = jsonDecode(res.responceBody!);
 
-      return UpdaterestrictionApi(
-          message: jsons['respCode'],
-          status: null,
-          stcode: res.resCode,
-          exception: jsons['respDesc']);
+        return UpdaterestrictionApi(
+            message: jsons['respCode'],
+            status: null,
+            stcode: res.resCode,
+            exception: jsons['respDesc']);
+      }
     } else {
       return UpdaterestrictionApi(
           message: 'Exception',

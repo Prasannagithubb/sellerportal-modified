@@ -77,7 +77,7 @@ class LoginController extends MyController {
   //
 
   RxBool ishidePassword = true.obs;
-  RxBool isLoadBtn = false.obs;
+  bool isLoadBtn = false;
 
   List<TextEditingController> controller =
       List.generate(5, (i) => TextEditingController());
@@ -90,7 +90,9 @@ class LoginController extends MyController {
   }
 
   validateLogin() async {
-    isLoadBtn.value = true;
+    isLoadBtn = true;
+    update();
+
     if (basicValidator.validateForm()) {
       await GetJWTtokenApi.callApi2(controller[0].text.toUpperCase(),
               controller[1].text, controller[2].text)
@@ -102,18 +104,20 @@ class LoginController extends MyController {
           await SharedPre.setToken(onValue.token!);
           print(onValue.loginDtls!);
           await SharedPre.setUserid(onValue.loginDtls!.UserID);
+          await SharedPre.setStoreCode(onValue.loginDtls!.storecode!);
+
           await SharedPre.setUserTypeid(onValue.loginDtls!.userType);
 
           UtilsVariables.token = onValue.token!;
           DataBaseConfig.userId = await SharedPre.getUserid();
-          refresh();
+          update();
+
           // print("token"+Utils.token.toString());
           // Get.snackbar(
           //     backgroundColor: Colors.green,
           //     colorText: Colors.white,
           //     'Sucessfully Login',
           //     '${onValue.resDesc}');
-          isLoadBtn.value = false;
           await Future.delayed(Duration(seconds: 2));
           String nextUrl =
               Uri.parse(ModalRoute.of(Get.context!)?.settings.name ?? "")
@@ -126,8 +130,6 @@ class LoginController extends MyController {
 
           update();
         } else {
-          isLoadBtn.value = false;
-          update();
           Get.dialog(AlertBox(
             msg: '${onValue.resDesc}',
           ));
@@ -148,8 +150,8 @@ class LoginController extends MyController {
       // }
     } else {
       await Future.delayed(const Duration(seconds: 1));
-      isLoadBtn.value = false;
-      refresh();
     }
+    isLoadBtn = false;
+    update();
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flowkit/helpers/constants/shared_preferences.dart';
 import 'package:flowkit/helpers/constants/utils.dart';
 import 'package:flowkit/helpers/utils/utils.dart';
 import 'package:flowkit/model/reponce-model.dart';
@@ -26,6 +27,9 @@ class ItemMasterAddApi {
       "brand": "$brand",
       "createdOn": "${config.currentDate()}"
     };
+    UtilsVariables.token = await SharedPre.getToken();
+
+    print(body);
     res = await ServicePost.callApi(
         '${UtilsVariables.clientPortalUrl}/PostBrand',
         UtilsVariables.token,
@@ -41,6 +45,8 @@ class ItemMasterAddApi {
       "category": "$category",
       "createdOn": "${config.currentDate()}"
     };
+    UtilsVariables.token = await SharedPre.getToken();
+
     res = await ServicePost.callApi(
         '${UtilsVariables.clientPortalUrl}/PostCategoryS',
         UtilsVariables.token,
@@ -57,6 +63,8 @@ class ItemMasterAddApi {
       "subcategory": "$subcategory",
       "createdOn": "${config.currentDate()}"
     };
+    UtilsVariables.token = await SharedPre.getToken();
+
     res = await ServicePost.callApi(
         '${UtilsVariables.clientPortalUrl}/PostSubcategoryS',
         UtilsVariables.token,

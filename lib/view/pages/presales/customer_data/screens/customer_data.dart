@@ -10,8 +10,9 @@ import 'package:flowkit/helpers/widgets/my_container.dart';
 import 'package:flowkit/helpers/widgets/my_spacing.dart';
 import 'package:flowkit/helpers/widgets/my_text.dart';
 import 'package:flowkit/helpers/widgets/my_text_style.dart';
-import 'package:flowkit/services/pages/customerdata/getAllcustomer_dataApi.dart';
+import 'package:flowkit/services/pages/presales/customerdata/getAllcustomer_dataApi.dart';
 import 'package:flowkit/view/layouts/layout.dart';
+import 'package:flowkit/view/pages/presales/customer_data/widgets/deleteAlertBox.dart';
 import 'package:flowkit/view/pages/presales/customer_data/widgets/new_customer.dart';
 import 'package:flowkit/widgets/custom_pop_menu.dart';
 import 'package:flutter/material.dart';
@@ -119,6 +120,7 @@ class _CustomerDataState extends State<CustomerData>
                                               controller: controller,
                                               heigth: height,
                                               width: height,
+                                              type: "Add",
                                             )),
                                       );
                                     },
@@ -230,104 +232,10 @@ class _CustomerDataState extends State<CustomerData>
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
                                           )),
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: width *
-                                        0.075, // Adjust width as necessary
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          labelText: ' ',
-                                          suffixIcon: Icon(
-                                            LucideIcons.filter,
-                                            color: Colors.grey[300],
-                                          )),
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: width *
-                                        0.075, // Adjust width as necessary
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          labelText: ' ',
-                                          suffixIcon: Icon(
-                                            LucideIcons.filter,
-                                            color: Colors.grey[300],
-                                          )),
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: width *
-                                        0.075, // Adjust width as necessary
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          labelText: ' ',
-                                          suffixIcon: Icon(
-                                            LucideIcons.filter,
-                                            color: Colors.grey[300],
-                                          )),
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: width *
-                                        0.075, // Adjust width as necessary
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          labelText: ' ',
-                                          suffixIcon: Icon(
-                                            LucideIcons.filter,
-                                            color: Colors.grey[300],
-                                          )),
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: width *
-                                        0.075, // Adjust width as necessary
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          labelText: ' ',
-                                          suffixIcon: Icon(
-                                            LucideIcons.filter,
-                                            color: Colors.grey[300],
-                                          )),
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: width *
-                                        0.075, // Adjust width as necessary
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          labelText: ' ',
-                                          suffixIcon: Icon(
-                                            LucideIcons.filter,
-                                            color: Colors.grey[300],
-                                          )),
                                       onChanged: (value) {
-                                        // Handle search functionality here
+                                        setState(() {
+                                          controller.filterStoreCode(value);
+                                        });
                                       },
                                     ),
                                   ),
@@ -345,7 +253,9 @@ class _CustomerDataState extends State<CustomerData>
                                             color: Colors.grey[300],
                                           )),
                                       onChanged: (value) {
-                                        // Handle search functionality here
+                                        setState(() {
+                                          controller.filterCutomerCode(value);
+                                        });
                                       },
                                     ),
                                   ),
@@ -363,8 +273,124 @@ class _CustomerDataState extends State<CustomerData>
                                             color: Colors.grey[300],
                                           )),
                                       onChanged: (value) {
-                                        // Handle search functionality here
+                                        setState(() {
+                                          controller.filterCustomerName(value);
+                                        });
                                       },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: width *
+                                        0.075, // Adjust width as necessary
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          labelText: ' ',
+                                          suffixIcon: Icon(
+                                            LucideIcons.filter,
+                                            color: Colors.grey[300],
+                                          )),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          controller.filterMobileNo(value);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: width *
+                                        0.075, // Adjust width as necessary
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          labelText: ' ',
+                                          suffixIcon: Icon(
+                                            LucideIcons.filter,
+                                            color: Colors.grey[300],
+                                          )),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          controller.filterContactName(value);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: width *
+                                        0.075, // Adjust width as necessary
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          labelText: ' ',
+                                          suffixIcon: Icon(
+                                            LucideIcons.filter,
+                                            color: Colors.grey[300],
+                                          )),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          controller.filterEmail(value);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: width *
+                                        0.075, // Adjust width as necessary
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          labelText: ' ',
+                                          suffixIcon: Icon(
+                                            LucideIcons.filter,
+                                            color: Colors.grey[300],
+                                          )),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          controller.filterCreateDate(value);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: width *
+                                        0.075, // Adjust width as necessary
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          labelText: ' ',
+                                          suffixIcon: Icon(
+                                            LucideIcons.filter,
+                                            color: Colors.grey[300],
+                                          )),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          controller.filterLastModifi(value);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: width *
+                                        0.075, // Adjust width as necessary
+                                    child: TextField(
+                                      readOnly: true,
+                                      decoration: InputDecoration(
+                                        labelText: ' ',
+                                      ),
+                                      onChanged: (value) {},
                                     ),
                                   ),
                                 ),
@@ -572,8 +598,53 @@ class _CustomerDataState extends State<CustomerData>
                               //         ),
                               //       ),
                               // arrowHeadColor: Colors.black  ,
-                              source: MyData(controller.filterDataList,
-                                  controller, context),
+                              source: MyData(
+                                  controller.filterDataList.isEmpty
+                                      ? [
+                                          AccountsNewData(
+                                              alternateMobileNo: '',
+                                              codeId: '',
+                                              bilAddress1: '',
+                                              bilAddress2: '',
+                                              bilAddress3: '',
+                                              bilArea: '',
+                                              bilCity: '',
+                                              bilCountry: '',
+                                              bilDistrict: '',
+                                              bilPincode: '',
+                                              bilState: '',
+                                              companyName: '',
+                                              contactName: '',
+                                              createdBy: 0,
+                                              createdOn: '',
+                                              customerCode: '',
+                                              customerEmail: '',
+                                              customerGroup: '',
+                                              customerMobile: '',
+                                              customerName: '',
+                                              delAddress1: '',
+                                              delAddress2: '',
+                                              delAddress3: '',
+                                              delArea: '',
+                                              delCity: '',
+                                              delCountry: '',
+                                              delDistrict: '',
+                                              delPincode: '',
+                                              delState: '',
+                                              GSTNo: '',
+                                              PAN: '',
+                                              status: null,
+                                              storeCode: '',
+                                              updatedOn: '',
+                                              updatedBy: 0,
+                                              traceid: '',
+                                              id: 0,
+                                              facebook: '',
+                                              cardtype: '')
+                                        ]
+                                      : controller.filterDataList,
+                                  controller,
+                                  context),
                               columns: [
                                 DataColumn(
                                   label: MyText.bodyMedium(
@@ -753,7 +824,7 @@ class _CustomerDataState extends State<CustomerData>
 
       sheet
           .getRangeByIndex(i + 2, 10)
-          .setText(item.status == '1' ? 'Active' : 'Inactive');
+          .setText(item.status == true ? 'Active' : 'Inactive');
     }
 
     final List<int> bytes = workbook.saveAsStream();
@@ -785,6 +856,8 @@ class MyData extends DataTableSource with UIMixin {
   @override
   DataRow getRow(int index) {
     final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.width;
+
     Utils config = Utils();
     return DataRow.byIndex(
       index: index,
@@ -853,70 +926,103 @@ class MyData extends DataTableSource with UIMixin {
             ))),
         DataCell(SizedBox(
             width: width * 0.08,
-            child: MyText.bodySmall(
-                config.currentDateFormat(data[index].createdOn.toString())))),
+            child: MyText.bodySmall(data[index].createdOn!.isEmpty
+                ? ''
+                : config.currentDateFormat(data[index].createdOn.toString())))),
         DataCell(SizedBox(
             width: width * 0.08,
-            child: MyText.bodySmall(
-                config.currentDateFormat(data[index].updatedOn!.toString())))),
+            child: MyText.bodySmall(data[index].createdOn!.isEmpty
+                ? ''
+                : config
+                    .currentDateFormat(data[index].updatedOn!.toString())))),
         DataCell(SizedBox(
             width: width * 0.06,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                        color: data[index].status == 'Active'
-                            ? Colors.green
-                            : Colors.red,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: MyText.bodySmall(
-                      data[index].status!,
-                      color: Colors.white,
-                    )),
+                data[index].status == null
+                    ? SizedBox()
+                    : Container(
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                            color: data[index].status == true
+                                ? Colors.green
+                                : Colors.red,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: MyText.bodySmall(
+                          data[index].status == true ? "Active" : "Inactive",
+                          color: Colors.white,
+                        )),
               ],
             ))),
         DataCell(
           Align(
             alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MyContainer.bordered(
-                  onTap: () => {},
-                  padding: MySpacing.xy(6, 6),
-                  borderColor: contentTheme.primary.withAlpha(40),
-                  child: Icon(
-                    LucideIcons.pencil,
-                    size: 12,
-                    color: contentTheme.primary,
+            child: data[index].status == null
+                ? Row(
+                    children: [
+                      SizedBox(),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MyContainer.bordered(
+                        onTap: () => {
+                          Get.dialog(
+                            barrierDismissible: false,
+                            Dialog(
+                                clipBehavior: Clip.none,
+                                // insetPadding: EdgeInsets.all(50),
+                                child: NewCustomer(
+                                  outlineInputBorder: outlineInputBorder,
+                                  colorScheme: colorScheme,
+                                  focusedInputBorder: focusedInputBorder,
+                                  contentTheme: contentTheme,
+                                  controller: cnt,
+                                  heigth: height,
+                                  width: width / 2,
+                                  type: "Update",
+                                  id: data[index].id,
+                                  datalist: data[index],
+                                )),
+                          )
+                        },
+                        padding: MySpacing.xy(6, 6),
+                        borderColor: contentTheme.primary.withAlpha(40),
+                        child: Icon(
+                          LucideIcons.pencil,
+                          size: 12,
+                          color: contentTheme.primary,
+                        ),
+                      ),
+                      MySpacing.width(12),
+                      MyContainer.bordered(
+                        onTap: () => {},
+                        padding: MySpacing.xy(6, 6),
+                        borderColor: contentTheme.primary.withAlpha(40),
+                        child: Icon(
+                          LucideIcons.list,
+                          size: 12,
+                          color: contentTheme.primary,
+                        ),
+                      ),
+                      MySpacing.width(12),
+                      MyContainer.bordered(
+                        onTap: () => {
+                          Get.dialog(DeleteAlertBoxCustomer(
+                              controller: cnt, deletId: data[index].id!))
+                        },
+                        padding: MySpacing.xy(6, 6),
+                        borderColor: contentTheme.primary.withAlpha(40),
+                        child: Icon(
+                          LucideIcons.trash_2,
+                          size: 12,
+                          color: contentTheme.primary,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                MySpacing.width(12),
-                MyContainer.bordered(
-                  onTap: () => {},
-                  padding: MySpacing.xy(6, 6),
-                  borderColor: contentTheme.primary.withAlpha(40),
-                  child: Icon(
-                    LucideIcons.list,
-                    size: 12,
-                    color: contentTheme.primary,
-                  ),
-                ),
-                MySpacing.width(12),
-                MyContainer.bordered(
-                  onTap: () => {},
-                  padding: MySpacing.xy(6, 6),
-                  borderColor: contentTheme.primary.withAlpha(40),
-                  child: Icon(
-                    LucideIcons.trash_2,
-                    size: 12,
-                    color: contentTheme.primary,
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ],

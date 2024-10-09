@@ -1,20 +1,14 @@
 import 'dart:convert';
-import 'package:flowkit/controller/pages/inventory/itemmaster_controller.dart';
 import 'package:flowkit/controller/pages/inventory/itemstocksPrice_controller.dart';
 import 'package:flowkit/helpers/theme/app_theme.dart';
 import 'package:flowkit/helpers/utils/mixins/ui_mixin.dart';
-import 'package:flowkit/helpers/utils/my_shadow.dart';
-import 'package:flowkit/helpers/utils/utils.dart';
 import 'package:flowkit/helpers/widgets/my_breadcrumb.dart';
 import 'package:flowkit/helpers/widgets/my_breadcrumb_item.dart';
 import 'package:flowkit/helpers/widgets/my_button.dart';
-import 'package:flowkit/helpers/widgets/my_card.dart';
 import 'package:flowkit/helpers/widgets/my_container.dart';
-import 'package:flowkit/helpers/widgets/my_list_extension.dart';
 import 'package:flowkit/helpers/widgets/my_spacing.dart';
 import 'package:flowkit/helpers/widgets/my_text.dart';
 import 'package:flowkit/helpers/widgets/my_text_style.dart';
-import 'package:flowkit/services/pages/inventory/itemMaster/itemmaster_api.dart';
 import 'package:flowkit/services/pages/inventory/item_stocks&price/getall_stocks&prices_api.dart';
 import 'package:flowkit/view/layouts/layout.dart';
 import 'package:flowkit/widgets/custom_pop_menu.dart';
@@ -126,6 +120,7 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
                                     isExpanded: true,
                                     onChanged: (value) {
                                       setState(() {
+                                        controller.valueStore = value;
                                         controller.callapi(value!);
                                       });
                                     },

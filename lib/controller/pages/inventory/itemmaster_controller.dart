@@ -204,21 +204,21 @@ class ItemMasterController extends MyController {
     Map<String, dynamic> json = basicValidator.getData();
     List<ItemAddPostModel> data = [];
     data.add(ItemAddPostModel(
-        itemname: json['itemname'],
-        itemcode: json['itemcode'],
-        brand: json['brand'],
-        category: json['category'],
-        subcategory: json['subcategory'],
-        itemDesc: json['itemdesc'],
-        modelNo: json['modelno'],
-        skucode: json['skucode'],
-        brancode: json['brandcode'],
-        itemgroup: json['itemgroup'],
-        specification: json['specification'],
-        sizecapacity: json['sizecapacity'],
-        color: json['colour'],
-        clasification: json['clasification'],
-        uom: json['uom'],
+        itemname: json['itemname'] ?? '',
+        itemcode: json['itemcode'] ?? '',
+        brand: json['brand'] ?? '',
+        category: json['category'] ?? '',
+        subcategory: json['subcategory'] ?? '',
+        itemDesc: json['itemdesc'] ?? '',
+        modelNo: json['modelno'] ?? '',
+        skucode: json['skucode'] ?? '',
+        brancode: json['brandcode'] ?? '',
+        itemgroup: json['itemgroup'] ?? '',
+        specification: json['specification'] ?? '',
+        sizecapacity: json['sizecapacity'] ?? '',
+        color: json['colour'] ?? '',
+        clasification: json['clasification'] ?? '',
+        uom: json['uom'] ?? '',
         taxrate: json['taxrate'] != null
             ? double.parse(json['taxrate'].toString())
             : 0.0,
@@ -226,18 +226,22 @@ class ItemMasterController extends MyController {
         catalogue2: filecatalogue2.isEmpty ? null : filecatalogue2,
         link1: filelink1.isEmpty ? null : filelink1,
         link2: filelink2.isEmpty ? null : filelink2,
-        textnote: json['textnote'],
+        textnote: json['textnote'] ?? '',
         status: "1",
-        partCode: json['partcode']));
+        partCode: json['partcode'] ?? ''));
 
     ItemAddApi.call(data).then((onValue) {
       if (onValue.stcode! >= 200 && onValue.stcode! <= 210) {
         Get.dialog(AlertBox(
           msg: 'Sucessfully Saved',
         ));
-      } else {
+      } else if (onValue.stcode! >= 200 && onValue.stcode! <= 210) {
         Get.dialog(AlertBox(
           msg: '${onValue.rescode ?? ''} ${onValue.resDesc}',
+        ));
+      } else {
+        Get.dialog(AlertBox(
+          msg: '${onValue.resDesc}',
         ));
       }
     });

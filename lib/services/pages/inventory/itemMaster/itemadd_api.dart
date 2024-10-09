@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flowkit/helpers/constants/shared_preferences.dart';
 import 'package:flowkit/helpers/constants/utils.dart';
 import 'package:flowkit/model/reponce-model.dart';
 import 'package:flowkit/services/api_main/service_post.dart';
@@ -18,9 +19,14 @@ class ItemAddApi {
     // print(data.map((toElement)=>toElement.tojson()).toList());
     List<Map<String, dynamic>> data2 =
         data.map((toElement) => toElement.tojson()).toList();
+    UtilsVariables.token = await SharedPre.getToken();
+
     res = await ServicePost.callApi(
         '${UtilsVariables.url}/PostItemDetails', UtilsVariables.token, {},
         listbody: data2);
+    print(res.responceBody!);
+    print(res.resCode!);
+
     return ItemAddApi.fromJson(res);
   }
 
@@ -33,11 +39,19 @@ class ItemAddApi {
           stcode: res.resCode);
     } else if (res.resCode! <= 410 && res.resCode! >= 400) {
       Map<String, dynamic> json = jsonDecode(res.responceBody!);
+      if (json['title'] != null) {
+        return ItemAddApi(
+            rescode: json['status'].toString(),
+            resDesc: json['title'],
+            stcode: res.resCode);
+      }
       return ItemAddApi(
           rescode: json['respCode'],
           resDesc: json['respDesc'],
           stcode: res.resCode);
     } else {
+      Map<String, dynamic> json = jsonDecode(res.responceBody!);
+
       return ItemAddApi(
           rescode: null, resDesc: res.responceBody, stcode: res.resCode);
     }

@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flowkit/helpers/constants/shared_preferences.dart';
 import 'package:flowkit/helpers/constants/utils.dart';
 import 'package:flowkit/model/reponce-model.dart';
-import 'package:flowkit/services/api_main/service_noBodyPost.dart';
-import 'package:flowkit/services/api_main/service_post.dart';
+import 'package:flowkit/services/api_main/service_get.dart';
 
 class GetAllCustomerApi {
   Accountsheader? itemdata;
@@ -21,17 +20,17 @@ class GetAllCustomerApi {
 
   static Future<GetAllCustomerApi> callapi() async {
     Responce res = Responce();
-    Map<String, dynamic> body = {
-      "listtype": "summary",
-      "valuetype": "name",
-      "fromperiod": null,
-      "toperiod": null,
-      "status": null
-    };
+    // Map<String, dynamic> body = {
+    //   "listtype": "summary",
+    //   "valuetype": "name",
+    //   "fromperiod": null,
+    //   "toperiod": null,
+    //   "status": null
+    // };
     String? token = await SharedPre.getToken();
 
-    res = await ServicePost.callApi(
-        "${UtilsVariables.url}/AllCustomers", token!, body);
+    res = await ServiceGet.callApi(
+        "${UtilsVariables.clientPortalUrl}/GetAllCustomers", token!);
     return GetAllCustomerApi.fromJson(res);
   }
 
@@ -40,7 +39,7 @@ class GetAllCustomerApi {
       var jsons = jsonDecode(res.responceBody!);
       if (jsons != null && jsons.isNotEmpty) {
         return GetAllCustomerApi(
-            itemdata: Accountsheader.fromJson(jsons),
+            itemdata: Accountsheader.fromJson(jsons as List),
             message: "Success",
             status: true,
             stcode: res.resCode,
@@ -76,16 +75,15 @@ class GetAllCustomerApi {
 class Accountsheader {
   List<AccountsNewData>? childdata;
   Accountsheader({required this.childdata});
-  factory Accountsheader.fromJson(Map<String, dynamic> jsons) {
+  factory Accountsheader.fromJson(List<dynamic> jsons) {
     //  if (jsons["data"] != null) {
-    var list = json.decode(jsons["data"]) as List;
-    if (list.isEmpty) {
+    if (jsons.isEmpty) {
       return Accountsheader(
         childdata: null,
       );
     } else {
       List<AccountsNewData> dataList =
-          list.map((data) => AccountsNewData.fromJson(data)).toList();
+          jsons.map((data) => AccountsNewData.fromJson(data)).toList();
       return Accountsheader(
         childdata: dataList,
       );
@@ -95,8 +93,9 @@ class Accountsheader {
 
 class AccountsNewData {
   AccountsNewData(
-      {required this.alternateMobileNo,
-      required this.assignedTo,
+      {required this.id,
+      required this.alternateMobileNo,
+      required this.codeId,
       required this.bilAddress1,
       required this.bilAddress2,
       required this.bilAddress3,
@@ -130,8 +129,10 @@ class AccountsNewData {
       required this.storeCode,
       required this.updatedOn,
       required this.updatedBy,
-      required this.traceid});
-
+      required this.traceid,
+      required this.facebook,
+      required this.cardtype});
+  int? id;
   String? customerCode;
   String? customerName;
   String? customerMobile;
@@ -161,50 +162,55 @@ class AccountsNewData {
   String? delCountry;
   String? delPincode;
   String? storeCode;
-  String? assignedTo;
-  String? status;
+  String? codeId;
+  bool? status;
   int? createdBy;
   String? createdOn;
   int? updatedBy;
   String? updatedOn;
   String? traceid;
+  String? facebook;
+  String? cardtype;
 
   factory AccountsNewData.fromJson(Map<String, dynamic> json) =>
       AccountsNewData(
-          alternateMobileNo: json['AlternateMobileNo'] ?? '',
-          assignedTo: json['AssignedTo'] ?? '',
-          bilAddress1: json['Bil_Address1'] ?? '',
-          bilAddress2: json['Bil_Address2'] ?? '',
-          bilAddress3: json['Bil_Address3'] ?? '',
-          bilArea: json['Bil_Area'] ?? '',
-          bilCity: json['Bil_City'] ?? '',
-          bilCountry: json['Bil_Country'] ?? '',
-          bilDistrict: json['Bil_District'] ?? '',
-          bilPincode: json['Bil_Pincode'] ?? '',
-          bilState: json['Bil_State'] ?? '',
-          companyName: json['CompanyName'] ?? '',
-          contactName: json['ContactName'] ?? '',
-          createdBy: json['CreatedBy'] ?? 0,
-          createdOn: json['CreatedOn'] ?? '',
-          customerCode: json['CustomerCode'] ?? '',
-          customerEmail: json['CustomerEmail'] ?? '',
-          customerGroup: json['CustomerGroup'] ?? '',
-          customerMobile: json['CustomerMobile'] ?? '',
-          customerName: json['CustomerName'] ?? '',
-          delAddress1: json['Del_Address1'] ?? '',
-          delAddress2: json['Del_Address2'] ?? '',
-          delAddress3: json['Del_Address3'] ?? '',
-          delArea: json['Del_Area'] ?? '',
-          delCity: json['Del_City'] ?? '',
-          delCountry: json['Del_Country'] ?? '',
-          delDistrict: json['Del_District'] ?? '',
-          delPincode: json['Del_Pincode'] ?? '',
-          delState: json['Del_State'] ?? '',
-          GSTNo: json['GSTNo'] ?? '',
-          PAN: json['PAN'] ?? '',
-          status: json['Status'] ?? '',
-          storeCode: json['StoreCode'] ?? '',
-          updatedBy: json['UpdatedBy'] ?? 0,
-          updatedOn: json['UpdatedOn'] ?? '',
-          traceid: json['traceid'] ?? '');
+          alternateMobileNo: json['alternateMobileNo'] ?? '',
+          codeId: json['codeId'] ?? '', //
+          bilAddress1: json['bilAddress1'] ?? '',
+          bilAddress2: json['bilAddress2'] ?? '',
+          bilAddress3: json['bilAddress3'] ?? '',
+          bilArea: json['bilArea'] ?? '',
+          bilCity: json['bilCity'] ?? '',
+          bilCountry: json['country'] ?? '',
+          bilDistrict: json['bilDistrict'] ?? '',
+          bilPincode: json['bilPincode'] ?? '',
+          bilState: json['bilState'] ?? '',
+          companyName: json['companyName'] ?? '',
+          contactName: json['contactName'] ?? '',
+          createdBy: json['createdBy'] ?? 0,
+          createdOn: json['createdOn'] ?? '',
+          customerCode: json['customerCode'] ?? '',
+          customerEmail: json['customerEmail'] ?? '',
+          customerGroup: json['customerGroup'] ?? '',
+          customerMobile: json['customerMobile'] ?? '',
+          customerName: json['customerName'] ?? '',
+          delAddress1: json['delAddress1'] ?? '',
+          delAddress2: json['delAddress2'] ?? '',
+          delAddress3: json['delAddress3'] ?? '',
+          delArea: json['delArea'] ?? '',
+          delCity: json['delCity'] ?? '',
+          delCountry: json['delCountry'] ?? '',
+          delDistrict: json['Del_District'] ?? '', //
+          delPincode: json['delPincode'] ?? '',
+          delState: json['delState'] ?? '',
+          GSTNo: json['gstno'] ?? '',
+          PAN: json['pan'] ?? '',
+          status: json['status'] ?? false,
+          storeCode: json['storeCode'] ?? '',
+          updatedBy: json['updatedBy'] ?? 0,
+          updatedOn: json['updatedOn'] ?? '',
+          traceid: json['traceid'] ?? '',
+          facebook: json['facebook'] ?? '',
+          cardtype: json['cardtype'] ?? '',
+          id: json['id'] ?? 0);
 }

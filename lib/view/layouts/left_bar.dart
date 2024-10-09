@@ -568,22 +568,22 @@ class _LeftBarState extends State<LeftBar>
         ),
         MenuItem(
           title: 'Enquiry',
-          route: '/app/contact/profile',
+          route: '/sellerkit/enquiry',
           isCondensed: widget.isCondensed,
         ),
         MenuItem(
           title: 'Leads',
-          route: '/app/contact/profile',
+          route: '/sellerkit/leads',
           isCondensed: widget.isCondensed,
         ),
         MenuItem(
           title: 'Orders',
-          route: '/app/contact/profile',
+          route: '/sellerkit/orders',
           isCondensed: widget.isCondensed,
         ),
         MenuItem(
           title: 'Outstanding',
-          route: '/app/contact/profile',
+          route: '/sellerkit/outstandings',
           isCondensed: widget.isCondensed,
         ),
         MenuItem(

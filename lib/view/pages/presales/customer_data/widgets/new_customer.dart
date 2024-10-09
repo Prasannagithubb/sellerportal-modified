@@ -6,6 +6,7 @@ import 'package:flowkit/helpers/widgets/my_card.dart';
 import 'package:flowkit/helpers/widgets/my_spacing.dart';
 import 'package:flowkit/helpers/widgets/my_text.dart';
 import 'package:flowkit/helpers/widgets/my_text_style.dart';
+import 'package:flowkit/services/pages/presales/customerdata/getAllcustomer_dataApi.dart';
 import 'package:flowkit/view/pages/Inventories/itemMaster/screens/itemmaster_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
@@ -20,7 +21,10 @@ class NewCustomer extends StatefulWidget {
       required this.contentTheme,
       required this.controller,
       required this.heigth,
-      required this.width});
+      required this.width,
+      required this.type,
+      this.datalist,
+      this.id});
 
   final OutlineInputBorder outlineInputBorder;
   final ColorScheme colorScheme;
@@ -29,6 +33,9 @@ class NewCustomer extends StatefulWidget {
   final CustomerDataController controller;
   final double width;
   final double heigth;
+  final String? type;
+  final int? id;
+  final AccountsNewData? datalist;
 
   @override
   State<NewCustomer> createState() => _NewCustomerState();
@@ -36,8 +43,25 @@ class NewCustomer extends StatefulWidget {
 
 class _NewCustomerState extends State<NewCustomer> {
   @override
+  void initState() {
+    // TODO: implement initState
+    callmeth();
+    super.initState();
+  }
+
+  void callmeth() async {
+    await Future.delayed(Duration(milliseconds: 100));
+    if (widget.type == 'Update') {
+      setState(() {
+        widget.controller.updateValuehange(widget.datalist);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return MyCard(
         borderRadiusAll: 8,
         // height: 250,
@@ -52,10 +76,15 @@ class _NewCustomerState extends State<NewCustomer> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MyText.titleMedium(
-                    "New Customer",
-                    fontWeight: 600,
-                  ),
+                  widget.type == "Add"
+                      ? MyText.titleMedium(
+                          "New Customer",
+                          fontWeight: 600,
+                        )
+                      : MyText.titleMedium(
+                          "Update",
+                          fontWeight: 600,
+                        ),
                   IconButton(
                       onPressed: () {
                         Get.back();
@@ -205,7 +234,7 @@ class _NewCustomerState extends State<NewCustomer> {
                     MyText.bodyMedium('Email Id '),
                     MySpacing.height(8),
                     CommonValidationForm(
-                      hintText: "",
+                      hintText: "test@gmail.com",
                       // icon: LucideIcons.user,
                       // validator: widget.controller.basicValidator
                       //     .getValidation('emailid'),
@@ -230,7 +259,7 @@ class _NewCustomerState extends State<NewCustomer> {
                     MyText.bodyMedium('GST.No '),
                     MySpacing.height(8),
                     CommonValidationForm(
-                      hintText: "",
+                      hintText: "Enter 15 digits Gstno",
                       // icon: LucideIcons.user,
                       // validator: widget.controller.basicValidator
                       //     .getValidation('gstno'),
@@ -276,13 +305,17 @@ class _NewCustomerState extends State<NewCustomer> {
                     DropdownButtonFormField(
                         dropdownColor: Colors.white,
                         // isDense: true,
-                        items: null,
+                        items: widget.controller.customerTagList!.map((e) {
+                          return DropdownMenuItem(
+                              value: e.code,
+                              child: MyText.bodySmall(e.description!));
+                        }).toList(),
                         value: widget.controller.valueTag,
                         isExpanded: true,
                         onChanged: (value) {
-                          // setState(() {
-                          // widget.controller.brand = value;
-                          // });
+                          setState(() {
+                            widget.controller.valueTag = value;
+                          });
                         },
                         // onTap: () {
                         //   setState(() {
@@ -290,8 +323,8 @@ class _NewCustomerState extends State<NewCustomer> {
                         //     widget.controller.brand=null;
                         //   });
                         // },
-                        // validator: widget.controller.basicValidator
-                        //     .getValidation('tag'),
+                        validator: widget.controller.basicValidator
+                            .getValidation('tag'),
                         decoration: InputDecoration(
                             hintText: '',
                             hintStyle: MyTextStyle.bodyMedium(xMuted: true),
@@ -358,8 +391,12 @@ class _NewCustomerState extends State<NewCustomer> {
                   children: [
                     MyText.labelLarge("Active Status "),
                     Switch(
-                      onChanged: (vval) {},
-                      value: true,
+                      onChanged: (vval) {
+                        setState(() {
+                          widget.controller.activeStatus = vval;
+                        });
+                      },
+                      value: widget.controller.activeStatus,
                       activeColor: theme.colorScheme.primary,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
@@ -370,15 +407,18 @@ class _NewCustomerState extends State<NewCustomer> {
           ),
           MySpacing.height(widget.heigth * 0.02),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                width: widget.width * 0.05,
+                width: widget.width / 2.5,
+                child: MyText.bodyLarge(
+                  'Billing Address',
+                  textAlign: TextAlign.start,
+                  fontWeight: 600,
+                ),
               ),
-              MyText.bodyLarge(
-                'Billing Address',
-                textAlign: TextAlign.end,
-                fontWeight: 600,
+              SizedBox(
+                width: widget.width / 2.5,
               ),
             ],
           ),
@@ -493,9 +533,9 @@ class _NewCustomerState extends State<NewCustomer> {
                         value: widget.controller.valueState,
                         isExpanded: true,
                         onChanged: (value) {
-                          // setState(() {
-                          // widget.controller.brand = value;
-                          // });
+                          setState(() {
+                            widget.controller.valueState = value;
+                          });
                         },
                         // onTap: () {
                         //   setState(() {
@@ -503,8 +543,8 @@ class _NewCustomerState extends State<NewCustomer> {
                         //     widget.controller.brand=null;
                         //   });
                         // },
-                        // validator: widget.controller.basicValidator
-                        //     .getValidation('state'),
+                        validator: widget.controller.basicValidator
+                            .getValidation('state'),
                         decoration: InputDecoration(
                             hintText: '',
                             hintStyle: MyTextStyle.bodyMedium(xMuted: true),
@@ -537,9 +577,9 @@ class _NewCustomerState extends State<NewCustomer> {
                         value: widget.controller.valueCountry,
                         isExpanded: true,
                         onChanged: (value) {
-                          // setState(() {
-                          // widget.controller.brand = value;
-                          // });
+                          setState(() {
+                            widget.controller.valueCountry = value;
+                          });
                         },
                         // onTap: () {
                         //   setState(() {
@@ -547,8 +587,8 @@ class _NewCustomerState extends State<NewCustomer> {
                         //     widget.controller.brand=null;
                         //   });
                         // },
-                        // validator: widget.controller.basicValidator
-                        //     .getValidation('country'),
+                        validator: widget.controller.basicValidator
+                            .getValidation('country'),
                         decoration: InputDecoration(
                             hintText: '',
                             hintStyle: MyTextStyle.bodyMedium(xMuted: true),
@@ -600,15 +640,35 @@ class _NewCustomerState extends State<NewCustomer> {
           ),
           MySpacing.height(widget.heigth * 0.02),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                width: widget.width * 0.05,
+                width: widget.width / 2.5,
+                child: MyText.bodyLarge(
+                  'Shipping Address',
+                  textAlign: TextAlign.start,
+                  fontWeight: 600,
+                ),
               ),
-              MyText.bodyLarge(
-                'Shipping Address',
-                textAlign: TextAlign.end,
-                fontWeight: 600,
+              SizedBox(
+                width: widget.width / 2.5,
+                child: Row(
+                  children: [
+                    MyText.labelSmall(
+                        "Add Billing Address To Shipping Address"),
+                    Switch(
+                      onChanged: (vval) {
+                        setState(() {
+                          widget.controller.addBilltoShip = vval;
+                          widget.controller.changebillAddresstoShipAdd(vval);
+                        });
+                      },
+                      value: widget.controller.addBilltoShip,
+                      activeColor: theme.colorScheme.primary,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -723,9 +783,9 @@ class _NewCustomerState extends State<NewCustomer> {
                         value: widget.controller.valueShippingState,
                         isExpanded: true,
                         onChanged: (value) {
-                          // setState(() {
-                          // widget.controller.brand = value;
-                          // });
+                          setState(() {
+                            widget.controller.valueShippingState = value;
+                          });
                         },
                         // onTap: () {
                         //   setState(() {
@@ -733,8 +793,8 @@ class _NewCustomerState extends State<NewCustomer> {
                         //     widget.controller.brand=null;
                         //   });
                         // },
-                        // validator: widget.controller.basicValidator
-                        //     .getValidation('shippingstate'),
+                        validator: widget.controller.basicValidator
+                            .getValidation('shippingstate'),
                         decoration: InputDecoration(
                             hintText: '',
                             hintStyle: MyTextStyle.bodyMedium(xMuted: true),
@@ -767,9 +827,9 @@ class _NewCustomerState extends State<NewCustomer> {
                         value: widget.controller.valueShippingCountry,
                         isExpanded: true,
                         onChanged: (value) {
-                          // setState(() {
-                          // widget.controller.brand = value;
-                          // });
+                          setState(() {
+                            widget.controller.valueShippingCountry = value;
+                          });
                         },
                         // onTap: () {
                         //   setState(() {
@@ -844,19 +904,30 @@ class _NewCustomerState extends State<NewCustomer> {
               ),
               MySpacing.width(16),
               MyButton(
-                onPressed: () {
-                  setState(() {
-                    widget.controller.validatemethod();
-                  });
-                },
+                onPressed: widget.type == "Add"
+                    ? () {
+                        setState(() {
+                          widget.controller.validatemethod();
+                        });
+                      }
+                    : () {
+                        setState(() {
+                          widget.controller.validateUpdatemethod(widget.id);
+                        });
+                      },
                 elevation: 0,
                 padding: MySpacing.xy(20, 16),
                 backgroundColor: theme.primaryColor,
                 borderRadiusAll: 5,
-                child: MyText.bodySmall(
-                  'Add',
-                  color: Colors.white,
-                ),
+                child: widget.type == "Add"
+                    ? MyText.bodySmall(
+                        'Add',
+                        color: Colors.white,
+                      )
+                    : MyText.bodySmall(
+                        'Update',
+                        color: Colors.white,
+                      ),
               ),
               MySpacing.width(widget.width * 0.04),
             ],

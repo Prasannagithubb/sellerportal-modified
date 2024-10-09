@@ -11,6 +11,7 @@ import 'package:flowkit/helpers/widgets/my_text_style.dart';
 import 'package:flowkit/services/pages/user_configuration/getRestriction.dart';
 import 'package:flowkit/view/layouts/layout.dart';
 import 'package:flowkit/view/pages/user_configuration/restriction_master/widgets/addandUpdate_restriction.dart';
+import 'package:flowkit/view/pages/user_configuration/restriction_master/widgets/deleteAlertbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -99,6 +100,9 @@ class _RestrictionMasterState extends State<RestrictionMaster>
                                       backgroundColor: Colors.white,
                                     ),
                                     onPressed: () {
+                                      setState(() {
+                                        controller.clearData();
+                                      });
                                       Get.dialog(
                                         barrierDismissible: false,
                                         Dialog(
@@ -490,7 +494,10 @@ class MyData extends DataTableSource with UIMixin {
                       ),
                       MySpacing.width(12),
                       MyContainer.bordered(
-                        onTap: () => {},
+                        onTap: () => {
+                          Get.dialog(DeleteAlertBoxRestrictionMaster(
+                              controller: cnt, deletId: data![index].id!))
+                        },
                         padding: MySpacing.xy(6, 6),
                         borderColor: contentTheme.primary.withAlpha(40),
                         child: Icon(

@@ -156,6 +156,11 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                       backgroundColor: Colors.white,
                                     ),
                                     onPressed: () {
+                                      setState(() {
+                                        controller.basicValidator
+                                            .getController('newbrand')!
+                                            .text = '';
+                                      });
                                       Get.dialog(
                                         barrierDismissible: false,
                                         Dialog(
@@ -192,6 +197,11 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                       backgroundColor: Colors.white,
                                     ),
                                     onPressed: () {
+                                      setState(() {
+                                        controller.basicValidator
+                                            .getController('newcategory')!
+                                            .text = '';
+                                      });
                                       Get.dialog(
                                         barrierDismissible: false,
                                         Dialog(
@@ -228,6 +238,11 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                       backgroundColor: Colors.white,
                                     ),
                                     onPressed: () {
+                                      setState(() {
+                                        controller.basicValidator
+                                            .getController('newsubcategory')!
+                                            .text = '';
+                                      });
                                       Get.dialog(
                                         barrierDismissible: false,
                                         Dialog(
@@ -492,6 +507,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                             },
                             child: PaginatedDataTable(
                               controller: _controllerbottom,
+
                               // sortColumnIndex: 5,
                               // header: minimizescreen
                               //     ? Container()
@@ -722,6 +738,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                       : controller.filterItemdata!,
                                   controller,
                                   context),
+
                               columns: [
                                 DataColumn(
                                   label: MyText.bodyMedium(
@@ -765,7 +782,10 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                               ],
                               columnSpacing: 10,
                               horizontalMargin: 10,
-                              rowsPerPage: 10,
+                              // rowsPerPage: 20,
+
+                              headingRowHeight: height * 0.04,
+                              dataRowHeight: height * 0.04,
                             ),
                           ),
                           // MySpacing.height(12),

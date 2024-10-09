@@ -2,6 +2,8 @@ import 'package:flowkit/controller/auth/login_controller.dart';
 import 'package:flowkit/helpers/utils/mixins/ui_mixin.dart';
 import 'package:flowkit/helpers/widgets/my_spacing.dart';
 import 'package:flowkit/helpers/widgets/my_text.dart';
+import 'package:flowkit/testapi/apiclass.dart';
+import 'package:flowkit/testapi/testapimodel.dart';
 import 'package:flowkit/view/layouts/auth_layout.dart';
 import 'package:flowkit/widgets/flow_kit_text_field.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen>
     controller = LoginController();
     super.initState();
   }
+
+  String temp = '';
 
   @override
   Widget build(BuildContext context) {
@@ -51,29 +55,51 @@ class _LoginScreenState extends State<LoginScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                              text: 'Let’s',
+                    GestureDetector(
+                      onTap: () async {
+                        AuthorizationResponse? response =
+                            await authorizeWithMobileNo("12fwe55fefwef",
+                                "9944900000", "asdasffqeqaefc");
+
+                        if (response != null) {
+                          setState(() {
+                            temp = response.someField;
+                          });
+                          print(
+                              'Authorization successful: ${response.someField}');
+                        } else {
+                          print('Authorization failed');
+                          setState(() {
+                            temp = 'Authorization failed';
+                          });
+                        }
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: 'Let’s',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 25.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                )),
+                            TextSpan(
+                              text: ' Sign In 👇',
                               style: GoogleFonts.raleway(
-                                fontSize: 25.0,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                              )),
-                          TextSpan(
-                            text: ' Sign In 👇',
-                            style: GoogleFonts.raleway(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                              fontSize: 25.0,
+                                fontSize: 25.0,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
+
+                Text(temp),
                 MySpacing.height(height * 0.02),
 
                 Row(
@@ -177,8 +203,13 @@ class _LoginScreenState extends State<LoginScreen>
                           },
                           child: controller.isLoadBtn == true
                               ? Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
+                                  child: SizedBox(
+                                    width: width * 0.008,
+                                    height: height * 0.01,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 1,
+                                    ),
                                   ),
                                 )
                               : Text('Log In')),
