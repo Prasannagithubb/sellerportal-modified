@@ -12,7 +12,6 @@ import 'package:flowkit/helpers/widgets/my_flex_item.dart';
 import 'package:flowkit/helpers/widgets/my_spacing.dart';
 import 'package:flowkit/helpers/widgets/my_text.dart';
 import 'package:flowkit/helpers/widgets/my_text_style.dart';
-import 'package:flowkit/services/pages/presales/leads/getleads_api.dart';
 import 'package:flowkit/services/pages/presales/orders/getorders_api.dart';
 import 'package:flowkit/view/layouts/layout.dart';
 import 'package:flowkit/widgets/custom_pop_menu.dart';
@@ -1083,7 +1082,10 @@ class MyData extends DataTableSource with UIMixin {
             child: MyText.bodySmall(data![index].itemName!.toString()))),
         DataCell(SizedBox(
             width: width * 0.12,
-            child: MyText.bodySmall(data![index].customerMobile!.toString()))),
+            child: MyText.bodySmall(
+              data![index].customerMobile!.toString(),
+              textAlign: TextAlign.right,
+            ))),
         DataCell(SizedBox(
             width: width * 0.12,
             child: MyText.bodySmall(data![index].bilAddress1!.toString()))),

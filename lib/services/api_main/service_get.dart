@@ -22,3 +22,24 @@ class ServiceGet {
     }
   }
 }
+
+class ServiceGetTest {
+  static Future<Responce> callApi(
+    String url,
+  ) async {
+    try {
+      final responce = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+      });
+      if (!url.contains('GetallitembyUser')) {
+        log("Body message: ${responce.body}");
+        log("Body message: ${responce.statusCode}");
+      }
+
+      return Responce.getRes(responce.statusCode, responce.body);
+    } catch (e) {
+      log("Body message: $e");
+      return Responce.getRes(500, '$e');
+    }
+  }
+}

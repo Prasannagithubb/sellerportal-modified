@@ -1,15 +1,17 @@
+import 'dart:convert';
+
 import 'package:flowkit/controller/auth/login_controller.dart';
 import 'package:flowkit/helpers/utils/mixins/ui_mixin.dart';
 import 'package:flowkit/helpers/widgets/my_spacing.dart';
 import 'package:flowkit/helpers/widgets/my_text.dart';
-import 'package:flowkit/testapi/apiclass.dart';
-import 'package:flowkit/testapi/testapimodel.dart';
+import 'package:flowkit/services/test.dart';
 import 'package:flowkit/view/layouts/auth_layout.dart';
 import 'package:flowkit/widgets/flow_kit_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen>
     super.initState();
   }
 
-  String temp = '';
+  String? temp = '', temp2 = '';
 
   @override
   Widget build(BuildContext context) {
@@ -57,22 +59,13 @@ class _LoginScreenState extends State<LoginScreen>
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        AuthorizationResponse? response =
-                            await authorizeWithMobileNo("12fwe55fefwef",
-                                "9944900000", "asdasffqeqaefc");
+                        String testt = await GetTetApi.getmethod();
+                        setState(() {
+                          temp = '';
 
-                        if (response != null) {
-                          setState(() {
-                            temp = response.someField;
-                          });
-                          print(
-                              'Authorization successful: ${response.someField}');
-                        } else {
-                          print('Authorization failed');
-                          setState(() {
-                            temp = 'Authorization failed';
-                          });
-                        }
+                          temp = testt;
+                        });
+                        //
                       },
                       child: RichText(
                         text: TextSpan(
@@ -99,15 +92,38 @@ class _LoginScreenState extends State<LoginScreen>
                   ],
                 ),
 
-                Text(temp),
+                Text(temp!),
                 MySpacing.height(height * 0.02),
+                IconButton(
+                    onPressed: () async {
+                      String url =
+                          "https://localhost:5001/api/PortalAuthenticate/PortalLogin";
+                      Map<String, String> headers = {
+                        "Content-Type": "application/json"
+                      };
+                      Map<String, dynamic> body = {
+                        "customerId": "bus002",
+                        "userCode": "admin",
+                        "password": "1@123"
+                      };
+                      http.Response response = await http.post(Uri.parse(url),
+                          headers: headers, body: jsonEncode(body));
+                      setState(() {
+                        temp2 = response.body.toString();
+                      });
+                    },
+                    icon: Icon(Icons.ac_unit)),
+                Text(temp2!),
 
                 Row(
                   children: [
-                    MyText.bodySmall(
-                      'Hey, Enter your details to get sign in \nto your account.',
-                      color: Colors.grey,
-                      style: GoogleFonts.raleway(),
+                    GestureDetector(
+                      onTap: () async {},
+                      child: MyText.bodySmall(
+                        'Hey, Enter your details to get sign in \nto your account.',
+                        color: Colors.grey,
+                        style: GoogleFonts.raleway(),
+                      ),
                     ),
                   ],
                 ),

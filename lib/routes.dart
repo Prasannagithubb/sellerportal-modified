@@ -41,10 +41,12 @@ import 'package:flowkit/view/other/syncfusion_chart_screen.dart';
 import 'package:flowkit/view/pages/Inventories/itemMaster/screens/itemmaster_screen.dart';
 import 'package:flowkit/view/pages/Inventories/itemStocks&Price/screens/itemStocks&Price_screen.dart';
 import 'package:flowkit/view/pages/Inventories/offersetup/screens/offer_setup.dart';
+import 'package:flowkit/view/pages/presales/challenge_setup/screens/challengesetup_screens.dart';
 import 'package:flowkit/view/pages/presales/customer_data/screens/customer_data.dart';
 import 'package:flowkit/view/pages/presales/enquiry/screens/enquiries_screens.dart';
 import 'package:flowkit/view/pages/presales/lead/screens/leads_screens.dart';
 import 'package:flowkit/view/pages/presales/orders/screens/orders_screens.dart';
+import 'package:flowkit/view/pages/presales/outstandings/screens/outstanding_screen.dart';
 import 'package:flowkit/view/pages/setups/age_group/screens/age_group_screen.dart';
 import 'package:flowkit/view/pages/setups/came_as/screens/came_as.dart';
 import 'package:flowkit/view/pages/setups/cancel_api/screens/cancel_reason_screen.dart';
@@ -535,6 +537,16 @@ getPageRoute() {
     GetPage(
       name: '/sellerkit/orders',
       page: () => OrdersScreen(),
+      //middlewares: [AuthMiddleware()]
+    ),
+    GetPage(
+      name: '/sellerkit/outstaning',
+      page: () => OutstandingScreen(),
+      //middlewares: [AuthMiddleware()]
+    ),
+    GetPage(
+      name: '/sellerkit/challengesetup',
+      page: () => ChallengeSetupScreen(),
       //middlewares: [AuthMiddleware()]
     ),
   ];

@@ -583,7 +583,7 @@ class _LeftBarState extends State<LeftBar>
         ),
         MenuItem(
           title: 'Outstanding',
-          route: '/sellerkit/outstandings',
+          route: '/sellerkit/outstaning',
           isCondensed: widget.isCondensed,
         ),
         MenuItem(
@@ -594,7 +594,7 @@ class _LeftBarState extends State<LeftBar>
           childrenMenuWidget: [
             MenuItem(
               title: 'Challenge\nSetup',
-              route: '/app/contact/profile',
+              route: '/sellerkit/challengesetup',
               isCondensed: widget.isCondensed,
             ),
             MenuItem(
