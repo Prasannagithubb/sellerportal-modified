@@ -96,21 +96,31 @@ class _LoginScreenState extends State<LoginScreen>
                 MySpacing.height(height * 0.02),
                 IconButton(
                     onPressed: () async {
-                      String url =
-                          "https://localhost:5001/api/PortalAuthenticate/PortalLogin";
+                      try{
+                        String url =
+                          "https://app.innerwheel.co.in/api/Authenticate/AuthorizationwithMobileNo";
                       Map<String, String> headers = {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods":
+                            "POST, GET, OPTIONS, PUT, DELETE, HEAD",
                       };
                       Map<String, dynamic> body = {
-                        "customerId": "bus002",
-                        "userCode": "admin",
-                        "password": "1@123"
+                        "deviceCode": "string",
+                        "mobileNo": "9944900000",
+                        "fcmcode": "uihhuiuhhh"
                       };
                       http.Response response = await http.post(Uri.parse(url),
                           headers: headers, body: jsonEncode(body));
                       setState(() {
                         temp2 = response.body.toString();
                       });
+                      }catch(e){
+                        setState(() {
+                            temp2 = e.toString();
+                        });
+                      }
+                     
                     },
                     icon: Icon(Icons.ac_unit)),
                 Text(temp2!),
