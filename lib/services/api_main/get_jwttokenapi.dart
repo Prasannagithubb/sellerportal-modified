@@ -26,6 +26,9 @@ class GetJWTtokenApi {
         Uri.parse('${UtilsVariables.loginurl}/Login'),
         headers: {
           'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods":
+              "POST, GET, OPTIONS, PUT, DELETE, HEAD",
         },
         body: jsonEncode({
           "customerId": "$customerId",

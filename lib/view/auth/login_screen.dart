@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen>
                   ],
                 ),
 
-                Text(temp!),
+                Text(temp!, maxLines: 2),
                 MySpacing.height(height * 0.02),
                 IconButton(
                     onPressed: () async {

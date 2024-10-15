@@ -5,7 +5,7 @@ class GetTetApi {
   static Future<String> getmethod() async {
     Responce res = Responce();
     res = await ServiceGetTest.callApi(
-      'http://localhost:2021/api/Products',
+      'https://catfact.ninja/fact',
     );
     return res.responceBody!.toString();
   }
