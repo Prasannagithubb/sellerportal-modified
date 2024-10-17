@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen>
     super.initState();
   }
 
-  String? temp = '', temp2 = '';
+  String? temp = '', temp2 = '', temp3 = '';
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +53,70 @@ class _LoginScreenState extends State<LoginScreen>
                 //         fit: BoxFit.cover, width: 150)),
                 // MySpacing.height(44),
                 MySpacing.height(height * 0.05),
+                GestureDetector(
+                  onTap: () async {
+                    String testt = await GetTetApi.getmethod(
+                        "http://dev.sellerkit.in:86/Products");
+                    setState(() {
+                      temp = '';
+
+                      temp = testt;
+                    });
+                  },
+                  child: Text("test1"),
+                ),
+                Text(temp!, maxLines: 2),
+                GestureDetector(
+                  onTap: () async {
+                    try {
+                      String url =
+                          "https://app.innerwheel.co.in/api/Authenticate/AuthorizationwithMobileNo";
+                      Map<String, String> headers = {
+                        "Content-Type": "application/json",
+                        // "Access-Control-Allow-Methods":
+                        //     "POST, GET, OPTIONS, PUT, DELETE, HEAD",
+                      };
+                      Map<String, dynamic> body = {
+                        "deviceCode": "string",
+                        "mobileNo": "9944900000",
+                        "fcmcode": "uihhuiuhhh"
+                      };
+                      http.Response response = await http.post(Uri.parse(url),
+                          headers: headers, body: jsonEncode(body));
+                      setState(() {
+                        temp2 = response.body.toString();
+                      });
+                    } catch (e) {
+                      setState(() {
+                        temp2 = e.toString();
+                      });
+                    }
+                  },
+                  child: Text("test2"),
+                ),
+                Text(temp2!, maxLines: 2),
+
+                GestureDetector(
+                  onTap: () async {
+                    String testt = await GetTetApi.getmethod(
+                        "https://maps.googleapis.com/maps/api/geocode/json?latlng=11.585224,77.221555&key=AIzaSyAdvVumVzr7teF3UDRchglwonf_vjvXtZo");
+                    setState(() {
+                      temp3 = '';
+
+                      temp3 = testt;
+                    });
+                  },
+                  child: Text("test3"),
+                ),
+                Text(temp3!, maxLines: 2),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        String testt = await GetTetApi.getmethod();
+                        String testt = await GetTetApi.getmethod(
+                            "http://91.203.133.224:81/api/SkClientPortal/GetallMasterType");
                         setState(() {
                           temp = '';
 
@@ -92,38 +149,7 @@ class _LoginScreenState extends State<LoginScreen>
                   ],
                 ),
 
-                Text(temp!, maxLines: 2),
                 MySpacing.height(height * 0.02),
-                IconButton(
-                    onPressed: () async {
-                      try{
-                        String url =
-                          "https://app.innerwheel.co.in/api/Authenticate/AuthorizationwithMobileNo";
-                      Map<String, String> headers = {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Methods":
-                            "POST, GET, OPTIONS, PUT, DELETE, HEAD",
-                      };
-                      Map<String, dynamic> body = {
-                        "deviceCode": "string",
-                        "mobileNo": "9944900000",
-                        "fcmcode": "uihhuiuhhh"
-                      };
-                      http.Response response = await http.post(Uri.parse(url),
-                          headers: headers, body: jsonEncode(body));
-                      setState(() {
-                        temp2 = response.body.toString();
-                      });
-                      }catch(e){
-                        setState(() {
-                            temp2 = e.toString();
-                        });
-                      }
-                     
-                    },
-                    icon: Icon(Icons.ac_unit)),
-                Text(temp2!),
 
                 Row(
                   children: [

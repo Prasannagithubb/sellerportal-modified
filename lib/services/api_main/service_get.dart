@@ -29,7 +29,8 @@ class ServiceGetTest {
   ) async {
     try {
       final responce = await http.get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
+        "Access-Control-Allow-Origin": "*",
       });
       if (!url.contains('GetallitembyUser')) {
         log("Body message: ${responce.body}");

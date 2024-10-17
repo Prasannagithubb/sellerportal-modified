@@ -2,10 +2,10 @@ import 'package:flowkit/model/reponce-model.dart';
 import 'package:flowkit/services/api_main/service_get.dart';
 
 class GetTetApi {
-  static Future<String> getmethod() async {
+  static Future<String> getmethod(String url) async {
     Responce res = Responce();
     res = await ServiceGetTest.callApi(
-      'http://localhost:2021/api/Products',
+      url,
     );
     return res.responceBody!.toString();
   }
