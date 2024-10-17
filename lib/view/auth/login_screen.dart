@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen>
                 GestureDetector(
                   onTap: () async {
                     String testt = await GetTetApi.getmethod(
-                        "http://dev.sellerkit.in:86/Products");
+                        "https://maps.googleapis.com/maps/api/geocode/json?latlng=11.585224,77.221555&key=AIzaSyAdvVumVzr7teF3UDRchglwonf_vjvXtZo");
                     setState(() {
                       temp = '';
 
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen>
                 GestureDetector(
                   onTap: () async {
                     String testt = await GetTetApi.getmethod(
-                        "https://maps.googleapis.com/maps/api/geocode/json?latlng=11.585224,77.221555&key=AIzaSyAdvVumVzr7teF3UDRchglwonf_vjvXtZo");
+                        "https://dev.sellerkit.in:86/Products");
                     setState(() {
                       temp3 = '';
 
