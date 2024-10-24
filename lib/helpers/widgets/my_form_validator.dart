@@ -104,6 +104,19 @@ class MyFormValidator {
     return map;
   }
 
+  clear() {
+    var map = {
+      ..._data,
+    };
+    for (var key in _controllers.keys) {
+      if (_controllers[key]?.text != null) {
+        _controllers[key]?.text = '';
+      }
+    }
+
+    return map;
+  }
+
   void resetForm() {
     formKey.currentState?.reset();
   }

@@ -117,63 +117,7 @@ class _NewItemAddState extends State<NewItemAdd> {
                   children: [
                     _generalDtls(theme),
                     otherDetails(theme),
-                    // _attach()
                     uploadFile(),
-                    // Container(
-                    //   height: widget.heigth*0.2,
-                    //   width: widget.width*00.3,
-                    //   color: Colors.amber,
-                    //   child: Row(
-                    //     children: [
-                    //       CommonValidationForm(
-                    //         hintText: "Den Navadiya",
-                    //         icon: LucideIcons.user,
-                    //         validator: widget.controller.basicValidator
-                    //             .getValidation('itemcode'),
-                    //         controller: widget.controller.basicValidator
-                    //             .getController('itemcode'),
-                    //         outlineInputBorder: widget.outlineInputBorder,
-                    //       ),
-                    //       CommonValidationForm(
-                    //         hintText: "Den Navadiya",
-                    //         icon: LucideIcons.user,
-                    //         validator: widget.controller.basicValidator
-                    //             .getValidation('itemcode'),
-                    //         controller: widget.controller.basicValidator
-                    //             .getController('itemcode'),
-                    //         outlineInputBorder: widget.outlineInputBorder,
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                    // Container(
-                    //   height: widget.heigth,
-                    //   width: widget.width,
-                    //   color: Colors.amber,
-                    //   child: Row(
-                    //     children: [
-                    //       CommonValidationForm(
-                    //         hintText: "Den Navadiya",
-                    //         icon: LucideIcons.user,
-                    //         validator: widget.controller.basicValidator
-                    //             .getValidation('itemcode'),
-                    //         controller: widget.controller.basicValidator
-                    //             .getController('itemcode'),
-                    //         outlineInputBorder: widget.outlineInputBorder,
-                    //       ),
-                    //       CommonValidationForm(
-                    //         hintText: "Den Navadiya",
-                    //         icon: LucideIcons.user,
-                    //         validator: widget.controller.basicValidator
-                    //             .getValidation('itemcode'),
-                    //         controller: widget.controller.basicValidator
-                    //             .getController('itemcode'),
-                    //         outlineInputBorder: widget.outlineInputBorder,
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                    // Text('c')
                   ],
                 ),
               ),
@@ -195,7 +139,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Item Code *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Item Code '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "",
@@ -214,7 +166,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Item Name *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Item Name '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "",
@@ -283,7 +243,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Brand *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Brand '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     DropdownButtonFormField(
                         dropdownColor: Colors.white,
@@ -338,7 +306,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Category *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Category '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     DropdownButtonFormField(
                         dropdownColor: Colors.white,
@@ -387,7 +363,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Sub Category *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Sub Category '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     DropdownButtonFormField(
                         dropdownColor: Colors.white,
@@ -584,7 +568,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Size Capacity *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Size Capacity '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "",
@@ -603,7 +595,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Colour *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Colour '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "",
@@ -628,7 +628,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Clasification *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Clasification '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "",
@@ -672,7 +680,15 @@ class _NewItemAddState extends State<NewItemAdd> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Tax Rate *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Tax Rate '),
+                        MyText.bodyMedium(
+                          '*',
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "0.00",
@@ -715,17 +731,17 @@ class _NewItemAddState extends State<NewItemAdd> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              MyButton(
-                onPressed: widget.controller.clearGNDtls,
-                elevation: 0,
-                padding: MySpacing.xy(20, 16),
-                backgroundColor: Colors.grey,
-                borderRadiusAll: 5,
-                child: MyText.bodySmall(
-                  'Clear',
-                  color: Colors.black,
-                ),
-              ),
+              // MyButton(
+              //   onPressed: widget.controller.clearGNDtls,
+              //   elevation: 0,
+              //   padding: MySpacing.xy(20, 16),
+              //   backgroundColor: Colors.grey,
+              //   borderRadiusAll: 5,
+              //   child: MyText.bodySmall(
+              //     'Clear',
+              //     color: Colors.black,
+              //   ),
+              // ),
               MySpacing.width(16),
               MyButton(
                 onPressed: () {
@@ -768,17 +784,13 @@ class _NewItemAddState extends State<NewItemAdd> {
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "Choose File",
+                      readOnly: true,
                       icon: LucideIcons.upload,
                       iconOnPressed: () async {
                         var result = await FilePicker.platform.pickFiles(
                             allowMultiple: false, type: widget.controller.type);
                         if (result?.files.isNotEmpty ?? false) {
                           setState(() {
-                            var fileBytes = result?.files.first.bytes;
-                            var fileName = result?.files.first.name;
-                            // print(String.fromCharCodes(fileBytes!));
-                            // print(result?.paths);
-
                             widget.controller.catelogue1 = result!.files[0];
                           });
                         }
@@ -805,7 +817,8 @@ class _NewItemAddState extends State<NewItemAdd> {
                     MyText.bodyMedium('Catalogue 2'),
                     MySpacing.height(8),
                     CommonValidationForm(
-                      hintText: "Choose File",
+                      hintText: "Choose File", readOnly: true,
+
                       icon: LucideIcons.upload,
                       iconOnPressed: () async {
                         try {
@@ -851,7 +864,8 @@ class _NewItemAddState extends State<NewItemAdd> {
                     MyText.bodyMedium('Link 1'),
                     MySpacing.height(8),
                     CommonValidationForm(
-                      hintText: "Choose File",
+                      hintText: "Choose File", readOnly: true,
+
                       icon: LucideIcons.upload,
                       iconOnPressed: () async {
                         try {
@@ -890,7 +904,8 @@ class _NewItemAddState extends State<NewItemAdd> {
                     MyText.bodyMedium('Link 2'),
                     MySpacing.height(8),
                     CommonValidationForm(
-                      hintText: "Choose File",
+                      hintText: "Choose File", readOnly: true,
+
                       icon: LucideIcons.upload,
                       iconOnPressed: () async {
                         try {

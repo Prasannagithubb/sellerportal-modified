@@ -517,8 +517,8 @@ class ItemMasterController extends MyController {
     brand = null;
     category = null;
     subCategory = null;
-    refresh();
     formkey[0].currentState!.reset();
+    basicValidator.clear();
     refresh();
   }
 
@@ -558,7 +558,7 @@ class ItemMasterController extends MyController {
       if (onValue.stcode! <= 210 && onValue.stcode! >= 200) {
         Get.back();
         Get.dialog(AlertBox(
-          msg: 'Store Sucessfully Deleted..!!',
+          msg: 'Item Sucessfully Deleted..!!',
         )).then((onValue) {
           callIemMaster();
         });

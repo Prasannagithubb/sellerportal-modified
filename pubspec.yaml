@@ -94,6 +94,7 @@ dependencies:
   syncfusion_flutter_datagrid_export: ^26.2.10
   path_provider: ^2.1.4
   syncfusion_flutter_xlsio: ^26.2.10
+  dio: ^5.7.0
 
 
 

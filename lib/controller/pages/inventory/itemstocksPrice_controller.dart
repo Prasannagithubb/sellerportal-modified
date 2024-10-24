@@ -10,8 +10,10 @@ import 'package:get/get_core/src/get_main.dart';
 class StocksandPriceController extends MyController {
   @override
   void onInit() {
+    clearall();
     callstoreApi();
-    // TODO: implement onInit
+    // TODoreApi();
+    // TODoreApi();
     super.onInit();
   }
 
@@ -28,9 +30,6 @@ class StocksandPriceController extends MyController {
     isLoad = true;
     update();
     await GetAllStocksPriceApi.callapi(storeid).then((onValue) {
-      print(onValue.stcode);
-      print(onValue.data!.length);
-
       if (onValue.stcode! <= 210 && onValue.stcode! >= 200) {
         datalist = onValue.data!;
         filterDatalist = datalist;
@@ -45,9 +44,19 @@ class StocksandPriceController extends MyController {
     update();
   }
 
+  clearall() {
+    storealldata.clear();
+    filterStorealldata.clear();
+    datalist.clear();
+    filterDatalist.clear();
+    // valueStore = null;
+    update();
+  }
+
   callstoreApi() async {
     storealldata = [];
     filterStorealldata = [];
+    valueStore = null;
     update();
     await GetAllStoreApi.callapi().then((onValue) {
       if (onValue.stcode! <= 210 && onValue.stcode! >= 200) {

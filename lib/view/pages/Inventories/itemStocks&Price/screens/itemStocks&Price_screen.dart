@@ -34,7 +34,7 @@ enum ScrollingList {
 
 class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
     with TickerProviderStateMixin, UIMixin {
-  StocksandPriceController? controller;
+  late StocksandPriceController? controller;
   late final ScrollController _controllerTop;
   late final ScrollController _controllerbottom;
   var scrollingList = ScrollingList.none;
@@ -439,6 +439,8 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
                                   },
                                   child: PaginatedDataTable(
                                     controller: _controllerbottom,
+                                    showFirstLastButtons: true,
+
                                     source: MyData(
                                         controller.filterDatalist.isEmpty
                                             ? [
@@ -518,7 +520,6 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
                                           '   Item Code',
                                           fontWeight: 600,
                                         ),
-                                        onSort: (columnIndex, ascending) {},
                                       ),
                                       DataColumn(
                                           label: MyText.bodyMedium(
@@ -568,7 +569,9 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
                                     ],
                                     columnSpacing: 10,
                                     horizontalMargin: 10,
-                                    rowsPerPage: 10,
+                                    // rowsPerPage: 20,
+                                    headingRowHeight: height * 0.04,
+                                    dataRowHeight: height * 0.04,
                                   ),
                                 ),
                           // MySpacing.height(12),

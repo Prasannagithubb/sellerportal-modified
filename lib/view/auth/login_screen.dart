@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flowkit/controller/auth/login_controller.dart';
 import 'package:flowkit/helpers/utils/mixins/ui_mixin.dart';
 import 'package:flowkit/helpers/widgets/my_spacing.dart';
 import 'package:flowkit/helpers/widgets/my_text.dart';
+import 'package:flowkit/model/reponce-model.dart';
 import 'package:flowkit/services/test.dart';
 import 'package:flowkit/view/layouts/auth_layout.dart';
 import 'package:flowkit/widgets/flow_kit_text_field.dart';
@@ -12,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   String? temp = '', temp2 = '', temp3 = '';
+  final dio = Dio();
 
   @override
   Widget build(BuildContext context) {
@@ -53,74 +57,83 @@ class _LoginScreenState extends State<LoginScreen>
                 //         fit: BoxFit.cover, width: 150)),
                 // MySpacing.height(44),
                 MySpacing.height(height * 0.05),
-                GestureDetector(
-                  onTap: () async {
-                    String testt = await GetTetApi.getmethod(
-                        "https://maps.googleapis.com/maps/api/geocode/json?latlng=11.585224,77.221555&key=AIzaSyAdvVumVzr7teF3UDRchglwonf_vjvXtZo");
-                    setState(() {
-                      temp = '';
+                // GestureDetector(
+                //   onTap: () async {
+                //     final response =
+                //         await dio.get('https://dev.sellerkit.in:86/Products');
+                //     print(response);
 
-                      temp = testt;
-                    });
-                  },
-                  child: Text("test1"),
-                ),
-                Text(temp!, maxLines: 2),
-                GestureDetector(
-                  onTap: () async {
-                    try {
-                      String url =
-                          "https://app.innerwheel.co.in/api/Authenticate/AuthorizationwithMobileNo";
-                      Map<String, String> headers = {
-                        "Content-Type": "application/json",
-                        // "Access-Control-Allow-Methods":
-                        //     "POST, GET, OPTIONS, PUT, DELETE, HEAD",
-                      };
-                      Map<String, dynamic> body = {
-                        "deviceCode": "string",
-                        "mobileNo": "9944900000",
-                        "fcmcode": "uihhuiuhhh"
-                      };
-                      http.Response response = await http.post(Uri.parse(url),
-                          headers: headers, body: jsonEncode(body));
-                      setState(() {
-                        temp2 = response.body.toString();
-                      });
-                    } catch (e) {
-                      setState(() {
-                        temp2 = e.toString();
-                      });
-                    }
-                  },
-                  child: Text("test2"),
-                ),
-                Text(temp2!, maxLines: 2),
+                //     Responce testt = await GetTetApi.getmethod(
+                //         "https://maps.googleapis.com/maps/api/geocode/json?latlng=11.585224,77.221555&key=AIzaSyAdvVumVzr7teF3UDRchglwonf_vjvXtZo");
+                //     setState(() {
+                //       temp = '';
 
-                GestureDetector(
-                  onTap: () async {
-                    String testt = await GetTetApi.getmethod(
-                        "https://dev.sellerkit.in:86/Products");
-                    setState(() {
-                      temp3 = '';
+                //       temp = response.data.toString();
+                //     });
+                //   },
+                //   child: Text("test1"),
+                // ),
+                // Text(temp!, maxLines: 2),
+                // GestureDetector(
+                //   onTap: () async {
+                //     try {
+                //       String url =
+                //           "https://app.innerwheel.co.in/api/Authenticate/AuthorizationwithMobileNo";
+                //       Map<String, String> headers = {
+                //         "Content-Type": "application/json",
+                //         // "Access-Control-Allow-Methods":
+                //         //     "POST, GET, OPTIONS, PUT, DELETE, HEAD",
+                //       };
+                //       Map<String, dynamic> body = {
+                //         "deviceCode": "string",
+                //         "mobileNo": "9944900000",
+                //         "fcmcode": "uihhuiuhhh"
+                //       };
+                //       http.Response response = await http.post(Uri.parse(url),
+                //           headers: headers, body: jsonEncode(body));
+                //       setState(() {
+                //         temp2 = response.body.toString();
+                //       });
+                //     } catch (e) {
+                //       setState(() {
+                //         temp2 = e.toString();
+                //       });
+                //     }
+                //   },
+                //   child: Text("test2"),
+                // ),
+                // Text(temp2!, maxLines: 2),
 
-                      temp3 = testt;
-                    });
-                  },
-                  child: Text("test3"),
-                ),
-                Text(temp3!, maxLines: 2),
+                // GestureDetector(
+                //   onTap: () async {
+                //     String? teee = await CustomHttpClient.getData(
+                //         "https://dev.sellerkit.in:86/Products");
+                //     // Responce testt = await GetTetApi.getmethod(
+                //     //     "https://dev.sellerkit.in:86/Products");
+                //     setState(() {
+                //       temp3 = '';
+                //       // if (testt.resCode! <= 210) {
+                //       temp3 = teee;
+                //       // } else {
+                //       //   temp2 = testt.responceBody;
+                //       // }
+                //     });
+                //   },
+                //   child: Text("test3*"),
+                // ),
+                // Text(temp3!),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        String testt = await GetTetApi.getmethod(
+                        Responce testt = await GetTetApi.getmethod(
                             "http://91.203.133.224:81/api/SkClientPortal/GetallMasterType");
                         setState(() {
                           temp = '';
 
-                          temp = testt;
+                          temp = testt.responceBody.toString();
                         });
                         //
                       },
@@ -443,5 +456,36 @@ class _LoginScreenState extends State<LoginScreen>
         ],
       ),
     );
+  }
+}
+
+class CustomHttpClient {
+  static final HttpClient client = HttpClient()
+    ..badCertificateCallback = (X509Certificate cert, String host, int port) =>
+        true; // Ignore self-signed certificate errors
+  static final Map<String, String> headers = {
+    'Content-Type': 'application/json',
+  };
+
+  static Future<String> getData(String url) async {
+    try {
+      final request = await client.getUrl(Uri.parse(url));
+
+      headers.forEach((key, value) {
+        request.headers.set(key, value);
+      });
+
+      final response = await request.close();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.transform(utf8.decoder).join();
+        return responseBody;
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return 'Error: $e';
+    }
   }
 }

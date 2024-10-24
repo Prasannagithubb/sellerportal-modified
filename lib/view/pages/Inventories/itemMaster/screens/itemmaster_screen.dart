@@ -120,6 +120,9 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                       backgroundColor: Colors.white,
                                     ),
                                     onPressed: () {
+                                      setState(() {
+                                        controller.softTabController.index = 0;
+                                      });
                                       Get.dialog(
                                         barrierDismissible: false,
                                         Dialog(
@@ -507,172 +510,8 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                             },
                             child: PaginatedDataTable(
                               controller: _controllerbottom,
+                              showFirstLastButtons: true,
 
-                              // sortColumnIndex: 5,
-                              // header: minimizescreen
-                              //     ? Container()
-                              //     : SingleChildScrollView(
-                              //         scrollDirection: Axis.horizontal,
-                              //         child: Row(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.spaceBetween,
-                              //           children: [
-                              //             SizedBox(
-                              //                 width: width * 0.19,
-                              //                 child: CommonValidationForm(
-                              //                   controller: null,
-                              //                   hintText: '',
-                              //                   outlineInputBorder:
-                              //                       OutlineInputBorder(
-                              //                     borderRadius: BorderRadius.all(
-                              //                         Radius.circular(5)),
-                              //                     borderSide: BorderSide(
-                              //                         width: 1,
-                              //                         strokeAlign: 0,
-                              //                         color: colorScheme.onSurface
-                              //                             .withAlpha(80)),
-                              //                   ),
-                              //                   onChanged: (aval) async {
-                              //                     controller.filterItemCode(
-                              //                         aval, controller);
-                              //                   },
-                              //                 )),
-                              //             SizedBox(
-                              //               width: width * 0.003,
-                              //             ),
-                              //             SizedBox(
-                              //                 width: width * 0.19,
-                              //                 child: CommonValidationForm(
-                              //                   controller: null,
-                              //                   outlineInputBorder:
-                              //                       OutlineInputBorder(
-                              //                     borderRadius: BorderRadius.all(
-                              //                         Radius.circular(5)),
-                              //                     borderSide: BorderSide(
-                              //                         width: 1,
-                              //                         strokeAlign: 0,
-                              //                         color: colorScheme.onSurface
-                              //                             .withAlpha(80)),
-                              //                   ),
-                              //                   onChanged: (aval) async {
-                              //                     controller.filterItemName(
-                              //                         aval, controller);
-                              //                   },
-                              //                 )),
-                              //             SizedBox(
-                              //               width: width * 0.003,
-                              //             ),
-                              //             SizedBox(
-                              //                 width: width * 0.09,
-                              //                 child: CommonValidationForm(
-                              //                   controller: null,
-                              //                   outlineInputBorder:
-                              //                       OutlineInputBorder(
-                              //                     borderRadius: BorderRadius.all(
-                              //                         Radius.circular(5)),
-                              //                     borderSide: BorderSide(
-                              //                         width: 1,
-                              //                         strokeAlign: 0,
-                              //                         color: colorScheme.onSurface
-                              //                             .withAlpha(80)),
-                              //                   ),
-                              //                   onChanged: (aval) async {
-                              //                     controller.filterBrand(
-                              //                         aval, controller);
-                              //                   },
-                              //                 )),
-                              //             SizedBox(
-                              //               width: width * 0.003,
-                              //             ),
-                              //             SizedBox(
-                              //                 width: width * 0.09,
-                              //                 child: CommonValidationForm(
-                              //                   controller: null,
-                              //                   outlineInputBorder:
-                              //                       OutlineInputBorder(
-                              //                     borderRadius: BorderRadius.all(
-                              //                         Radius.circular(5)),
-                              //                     borderSide: BorderSide(
-                              //                         width: 1,
-                              //                         strokeAlign: 0,
-                              //                         color: colorScheme.onSurface
-                              //                             .withAlpha(80)),
-                              //                   ),
-                              //                   onChanged: (aval) async {
-                              //                     controller.filterCAtegory(
-                              //                         aval, controller);
-                              //                   },
-                              //                 )),
-                              //             SizedBox(
-                              //               width: width * 0.003,
-                              //             ),
-                              //             SizedBox(
-                              //                 width: width * 0.09,
-                              //                 child: CommonValidationForm(
-                              //                   controller: null,
-                              //                   outlineInputBorder:
-                              //                       OutlineInputBorder(
-                              //                     borderRadius: BorderRadius.all(
-                              //                         Radius.circular(5)),
-                              //                     borderSide: BorderSide(
-                              //                         width: 1,
-                              //                         strokeAlign: 0,
-                              //                         color: colorScheme.onSurface
-                              //                             .withAlpha(80)),
-                              //                   ),
-                              //                   onChanged: (aval) async {
-                              //                     controller.filterSubCategory(
-                              //                         aval, controller);
-                              //                   },
-                              //                 )),
-                              //             SizedBox(
-                              //               width: width * 0.003,
-                              //             ),
-                              //             SizedBox(
-                              //                 width: width * 0.07,
-                              //                 child: CommonValidationForm(
-                              //                   controller: null,
-                              //                   outlineInputBorder:
-                              //                       OutlineInputBorder(
-                              //                     borderRadius: BorderRadius.all(
-                              //                         Radius.circular(5)),
-                              //                     borderSide: BorderSide(
-                              //                         width: 1,
-                              //                         strokeAlign: 0,
-                              //                         color: colorScheme.onSurface
-                              //                             .withAlpha(80)),
-                              //                   ),
-                              //                   onChanged: (aval) async {
-                              //                     controller.filterStatus(
-                              //                         aval, controller);
-                              //                   },
-                              //                 )),
-                              //             SizedBox(
-                              //               width: width * 0.003,
-                              //             ),
-                              //             SizedBox(
-                              //                 width: width * 0.03,
-                              //                 child: CommonValidationForm(
-                              //                   controller: null,
-                              //                   outlineInputBorder:
-                              //                       OutlineInputBorder(
-                              //                     borderRadius: BorderRadius.all(
-                              //                         Radius.circular(5)),
-                              //                     borderSide: BorderSide(
-                              //                         width: 1,
-                              //                         strokeAlign: 0,
-                              //                         color: colorScheme.onSurface
-                              //                             .withAlpha(80)),
-                              //                   ),
-                              //                   onChanged: (aval) async {
-                              //                     // controller.filterItemName(
-                              //                     //     aval, controller);
-                              //                   },
-                              //                 )),
-                              //           ],
-                              //         ),
-                              //       ),
-                              // arrowHeadColor: Colors.black  ,
                               source: MyData(
                                   controller.filterItemdata!.isEmpty
                                       ? [
@@ -745,7 +584,6 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                     '     Item Code',
                                     fontWeight: 600,
                                   ),
-                                  onSort: (columnIndex, ascending) {},
                                 ),
                                 DataColumn(
                                     label: MyText.bodyMedium(
@@ -1203,6 +1041,7 @@ class CommonValidationForm extends StatelessWidget {
       this.hintText,
       this.icon,
       this.onChanged,
+      this.readOnly = false,
       this.inputFormatters,
       this.iconOnPressed});
   Function()? iconOnPressed;
@@ -1213,10 +1052,12 @@ class CommonValidationForm extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final OutlineInputBorder outlineInputBorder;
   final void Function(String)? onChanged;
+  final bool readOnly;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
+      readOnly: readOnly,
       controller: controller,
       inputFormatters: inputFormatters,
       onChanged: onChanged,

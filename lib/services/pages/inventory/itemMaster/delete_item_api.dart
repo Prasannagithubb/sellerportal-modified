@@ -22,11 +22,12 @@ class ItemDeleteApi {
     Responce res = Responce();
     String? token = await SharedPre.getToken();
     res = await ServiceNoBodyDelete.callApi(
-        "${UtilsVariables.clientPortalUrl}/DeleteStores?Id=$id", token!);
+        "${UtilsVariables.clientPortalUrl}/deleteItem/Id?id=$id", token!);
     return ItemDeleteApi.fromJson(res);
   }
 
   factory ItemDeleteApi.fromJson(Responce res) {
+    print(res.responceBody);
     if (res.resCode! <= 210 && res.resCode! >= 200) {
       return ItemDeleteApi(
           message: "Success",
