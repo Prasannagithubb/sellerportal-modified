@@ -10,8 +10,8 @@ import 'package:flowkit/helpers/widgets/my_text.dart';
 import 'package:flowkit/images.dart';
 import 'package:flowkit/widgets/custom_pop_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:get/route_manager.dart';
 
 typedef LeftbarMenuFunction = void Function(String key);
 
@@ -699,11 +699,11 @@ class _LeftBarState extends State<LeftBar>
           route: '/sellerkit/itemMaster_StocksPrice',
           isCondensed: widget.isCondensed,
         ),
-        // MenuItem(
-        //   title: 'Offer Setup',
-        //   route: '/sellerkit/offer_setup',
-        //   isCondensed: widget.isCondensed,
-        // ),
+        MenuItem(
+          title: 'Linked Item',
+          route: '/sellerkit/offer_setup',
+          isCondensed: widget.isCondensed,
+        ),
         // MenuItem(
         //   title: 'Festival Offers',
         //   route: '/app/contact/profile',

@@ -16,8 +16,8 @@ import 'package:flowkit/helpers/widgets/my_text.dart';
 import 'package:flowkit/images.dart';
 import 'package:flowkit/view/layouts/layout.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class AnalyticsScreen extends StatefulWidget {

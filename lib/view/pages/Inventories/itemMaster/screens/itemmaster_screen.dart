@@ -623,6 +623,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                               // rowsPerPage: 20,
 
                               headingRowHeight: height * 0.04,
+                              // ignore: deprecated_member_use
                               dataRowHeight: height * 0.04,
                             ),
                           ),

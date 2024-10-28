@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flowkit/helpers/constants/shared_preferences.dart';
 import 'package:flowkit/helpers/constants/utils.dart';
 import 'package:flowkit/model/reponce-model.dart';
@@ -36,7 +35,6 @@ class ItemDeleteApi {
           exception: null);
     } else if (res.resCode! <= 410 && res.resCode! >= 400) {
       var jsons = jsonDecode(res.responceBody!);
-
       return ItemDeleteApi(
           message: jsons['respCode'],
           status: null,

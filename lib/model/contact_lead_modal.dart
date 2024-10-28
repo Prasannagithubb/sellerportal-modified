@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flowkit/helpers/services/json_decoder.dart';
 import 'package:flowkit/images.dart';
 import 'package:flowkit/model/identifier_model.dart';

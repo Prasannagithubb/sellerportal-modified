@@ -24,11 +24,11 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xls;
 import 'package:universal_html/html.dart';
 
-class OfferSetupScreen extends StatefulWidget {
-  const OfferSetupScreen({super.key});
+class LinkedItem extends StatefulWidget {
+  const LinkedItem({super.key});
 
   @override
-  State<OfferSetupScreen> createState() => _OfferSetupScreenState();
+  State<LinkedItem> createState() => _LinkedItemState();
 }
 
 enum ScrollingList {
@@ -37,25 +37,25 @@ enum ScrollingList {
   right,
 }
 
-class _OfferSetupScreenState extends State<OfferSetupScreen>
+ItemMasterController? controller;
+late final ScrollController _controllerTop;
+late final ScrollController _controllerbottom;
+var scrollingList = ScrollingList.none;
+
+class _LinkedItemState extends State<LinkedItem>
     with TickerProviderStateMixin, UIMixin {
-  ItemMasterController? controller;
-  late final ScrollController _controllerTop;
-  late final ScrollController _controllerbottom;
-  var scrollingList = ScrollingList.none;
   @override
   void initState() {
+    super.initState();
     controller = ItemMasterController(this);
     _controllerTop = ScrollController();
     _controllerbottom = ScrollController();
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-
     return Layout(
       child: GetBuilder(
         init: controller,
@@ -488,116 +488,6 @@ class _OfferSetupScreenState extends State<OfferSetupScreen>
     );
   }
 
-  Widget buildAccountMenu() {
-    return MyContainer(
-      borderRadiusAll: 8,
-      width: 150,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MyButton(
-            onPressed: () => {_createExcel('xlsx')},
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            borderRadiusAll: AppStyle.buttonRadius.medium,
-            padding: MySpacing.xy(8, 4),
-            splashColor: colorScheme.onSurface.withAlpha(20),
-            backgroundColor: Colors.transparent,
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/brand/xlsx.png',
-                  scale: 20,
-                ),
-                MySpacing.width(8),
-                MyText.labelMedium(
-                  "XLSX",
-                  fontWeight: 600,
-                )
-              ],
-            ),
-          ),
-          MySpacing.height(8),
-          MyButton(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () => {_createExcel('xls')},
-            borderRadiusAll: AppStyle.buttonRadius.medium,
-            padding: MySpacing.xy(8, 4),
-            splashColor: colorScheme.onSurface.withAlpha(20),
-            backgroundColor: Colors.transparent,
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/brand/xls.png',
-                  scale: 20,
-                ),
-                MySpacing.width(8),
-                MyText.labelMedium("XLS", fontWeight: 600)
-              ],
-            ),
-          ),
-          MySpacing.height(8),
-          MyButton(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () {
-              // languageHideFn?.call();
-              // Get.offAll(LoginScreen());
-            },
-            borderRadiusAll: AppStyle.buttonRadius.medium,
-            padding: MySpacing.xy(8, 4),
-            splashColor: contentTheme.danger.withAlpha(28),
-            backgroundColor: Colors.transparent,
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/brand/docx.png',
-                  scale: 20,
-                ),
-                MySpacing.width(8),
-                MyText.labelMedium("DOCX",
-                    fontWeight: 600, color: contentTheme.danger)
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Future<void> _createExcel(String exceltype) async {
-    //Create a Excel document.
-    //Creating a workbook
-    final xls.Workbook workbook = xls.Workbook();
-    //Accessing via index.
-    final xls.Worksheet sheet = workbook.worksheets[0];
-    sheet.getRangeByIndex(1, 1).setText("Item Code");
-    sheet.getRangeByIndex(1, 2).setText("Item Name");
-    sheet.getRangeByIndex(1, 3).setText("Brand");
-    sheet.getRangeByIndex(1, 4).setText("Category");
-    sheet.getRangeByIndex(1, 5).setText("SubCategory");
-    sheet.getRangeByIndex(1, 6).setText("Status");
-
-    for (var i = 0; i < controller!.filterItemdata!.length; i++) {
-      final item = controller!.filterItemdata![i];
-      sheet.getRangeByIndex(i + 2, 1).setText(item.itemcode);
-      sheet.getRangeByIndex(i + 2, 2).setText(item.itemName);
-      sheet.getRangeByIndex(i + 2, 3).setText(item.Brand);
-      sheet.getRangeByIndex(i + 2, 4).setText(item.Category);
-      sheet.getRangeByIndex(i + 2, 5).setText(item.Segment);
-      sheet
-          .getRangeByIndex(i + 2, 6)
-          .setText(item.status == '1' ? 'Active' : 'Deactive');
-    }
-
-    final List<int> bytes = workbook.saveAsStream();
-    //Dispose the document.
-    AnchorElement(
-        href:
-            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
-      ..setAttribute("download", "output.$exceltype")
-      ..click();
-    workbook.dispose();
-  }
-
   Widget buildVisitorByChannel() {
     return MyCard(
       width: double.infinity,
@@ -755,6 +645,116 @@ class _OfferSetupScreenState extends State<OfferSetupScreen>
       ),
     );
   }
+
+  Widget buildAccountMenu() {
+    return MyContainer(
+      borderRadiusAll: 8,
+      width: 150,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MyButton(
+            onPressed: () => {_createExcel('xlsx')},
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            borderRadiusAll: AppStyle.buttonRadius.medium,
+            padding: MySpacing.xy(8, 4),
+            splashColor: colorScheme.onSurface.withAlpha(20),
+            backgroundColor: Colors.transparent,
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/images/brand/xlsx.png',
+                  scale: 20,
+                ),
+                MySpacing.width(8),
+                MyText.labelMedium(
+                  "XLSX",
+                  fontWeight: 600,
+                )
+              ],
+            ),
+          ),
+          MySpacing.height(8),
+          MyButton(
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            onPressed: () => {_createExcel('xls')},
+            borderRadiusAll: AppStyle.buttonRadius.medium,
+            padding: MySpacing.xy(8, 4),
+            splashColor: colorScheme.onSurface.withAlpha(20),
+            backgroundColor: Colors.transparent,
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/images/brand/xls.png',
+                  scale: 20,
+                ),
+                MySpacing.width(8),
+                MyText.labelMedium("XLS", fontWeight: 600)
+              ],
+            ),
+          ),
+          MySpacing.height(8),
+          MyButton(
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            onPressed: () {
+              // languageHideFn?.call();
+              // Get.offAll(LoginScreen());
+            },
+            borderRadiusAll: AppStyle.buttonRadius.medium,
+            padding: MySpacing.xy(8, 4),
+            splashColor: contentTheme.danger.withAlpha(28),
+            backgroundColor: Colors.transparent,
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/images/brand/docx.png',
+                  scale: 20,
+                ),
+                MySpacing.width(8),
+                MyText.labelMedium("DOCX",
+                    fontWeight: 600, color: contentTheme.danger)
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+Future<void> _createExcel(String exceltype) async {
+  //Create a Excel document.
+  //Creating a workbook
+  final xls.Workbook workbook = xls.Workbook();
+  //Accessing via index.
+  final xls.Worksheet sheet = workbook.worksheets[0];
+  sheet.getRangeByIndex(1, 1).setText("Item Code");
+  sheet.getRangeByIndex(1, 2).setText("Item Name");
+  sheet.getRangeByIndex(1, 3).setText("Brand");
+  sheet.getRangeByIndex(1, 4).setText("Category");
+  sheet.getRangeByIndex(1, 5).setText("SubCategory");
+  sheet.getRangeByIndex(1, 6).setText("Status");
+
+  for (var i = 0; i < controller!.filterItemdata!.length; i++) {
+    final item = controller!.filterItemdata![i];
+    sheet.getRangeByIndex(i + 2, 1).setText(item.itemcode);
+    sheet.getRangeByIndex(i + 2, 2).setText(item.itemName);
+    sheet.getRangeByIndex(i + 2, 3).setText(item.Brand);
+    sheet.getRangeByIndex(i + 2, 4).setText(item.Category);
+    sheet.getRangeByIndex(i + 2, 5).setText(item.Segment);
+    sheet
+        .getRangeByIndex(i + 2, 6)
+        .setText(item.status == '1' ? 'Active' : 'Deactive');
+  }
+
+  final List<int> bytes = workbook.saveAsStream();
+  //Dispose the document.
+  AnchorElement(
+      href:
+          "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+    ..setAttribute("download", "output.$exceltype")
+    ..click();
+  workbook.dispose();
 }
 
 class MyData extends DataTableSource with UIMixin {

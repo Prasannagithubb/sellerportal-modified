@@ -26,8 +26,7 @@ class ItemMasterApi {
 
     // DataBaseConfig.userId = userid;
     res = await ServiceGet.callApi(
-        '${UtilsVariables.url}/GetallitembyUser?UserId=$userid',
-        token!);
+        '${UtilsVariables.url}/GetallitembyUser?UserId=$userid', token!);
     return ItemMasterApi.fromJson(res);
   }
 
@@ -167,7 +166,6 @@ class ItemMasterNewData {
   String? movingType;
   bool? eol;
   bool? veryFast;
-
   bool? fast;
   bool? slow;
   bool? verySlow;
