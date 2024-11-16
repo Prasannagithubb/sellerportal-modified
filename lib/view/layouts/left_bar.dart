@@ -1055,7 +1055,7 @@ class _MenuItemState extends State<MenuItem>
       return GestureDetector(
         onTap: () {
           if (widget.route != null) {
-            Get.toNamed(widget.route!);
+            Get.offAllNamed(widget.route!);
             // MyRouter.pushReplacementNamed(context, widget.route!, arguments: 1);
           }
         },

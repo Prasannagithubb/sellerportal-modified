@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class NewOffer extends StatefulWidget {
   const NewOffer(
@@ -40,6 +41,7 @@ class NewOffer extends StatefulWidget {
 }
 
 class _NewOfferState extends State<NewOffer> {
+  bool isActive = true;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -93,31 +95,39 @@ class _NewOfferState extends State<NewOffer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              // SizedBox(
+              //   width: widget.width / 2.5,
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       MyText.bodyMedium('Offer Code *'),
+              //       MySpacing.height(8),
+              //       CommonValidationForm(
+              //         hintText: "",
+              //         // icon: LucideIcons.user,
+              //         validator: widget.controller.basicValidator
+              //             .getValidation('offercode'),
+              //         controller: widget.controller.basicValidator
+              //             .getController('offercode'),
+              //         outlineInputBorder: widget.outlineInputBorder,
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 width: widget.width / 2.5,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Offer Code *'),
-                    MySpacing.height(8),
-                    CommonValidationForm(
-                      hintText: "",
-                      // icon: LucideIcons.user,
-                      validator: widget.controller.basicValidator
-                          .getValidation('offercode'),
-                      controller: widget.controller.basicValidator
-                          .getController('offercode'),
-                      outlineInputBorder: widget.outlineInputBorder,
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Offer Description '),
+                        MyText.bodyMedium(
+                          '*',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: widget.width / 2.5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyText.bodyMedium('Offer Description *'),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "",
@@ -142,9 +152,25 @@ class _NewOfferState extends State<NewOffer> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('From Date *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('From Date'),
+                        MyText.bodyMedium(
+                          '*',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
+                      onDateSelected: (selectedDate) {
+                        // Format the date to "MM/dd/yyyy"
+                        String formattedDate =
+                            DateFormat('MM/dd/yyyy').format(selectedDate);
+                        widget.controller.basicValidator
+                            .getController('fromdate')
+                            ?.text = formattedDate;
+                      },
                       hintText: "",
                       // icon: LucideIcons.user,
                       validator: widget.controller.basicValidator
@@ -161,16 +187,30 @@ class _NewOfferState extends State<NewOffer> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('To Date *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('To Date'),
+                        MyText.bodyMedium(
+                          '*',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
-                      hintText: "",
-                      // icon: LucideIcons.user,
+                      hintText: "Select To Date", // Hint for the user
                       validator: widget.controller.basicValidator
-                          .getValidation('todate'),
+                          .getValidation('todate'), // Validation logic
                       controller: widget.controller.basicValidator
-                          .getController('todate'),
-                      outlineInputBorder: widget.outlineInputBorder,
+                          .getController('todate'), // TextEditingController
+                      outlineInputBorder:
+                          widget.outlineInputBorder, // Your custom border
+                      isDatePicker: true, // Enable the date picker
+                      onDateSelected: (selectedDate) {
+                        // Handle any additional logic when a date is selected
+                        print(
+                            "Selected date: ${selectedDate.toLocal()}"); // Or handle it as needed
+                      },
                     ),
                   ],
                 ),
@@ -186,7 +226,15 @@ class _NewOfferState extends State<NewOffer> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Relavent Tags *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Relavent Tags'),
+                        MyText.bodyMedium(
+                          '*',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
                       hintText: "",
@@ -205,9 +253,25 @@ class _NewOfferState extends State<NewOffer> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Offer % *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Offer % '),
+                        MyText.bodyMedium(
+                          '*',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    ),
+                    MyText.bodyMedium(
+                      '*',
+                      style: TextStyle(color: Colors.red),
+                    ),
                     MySpacing.height(8),
                     CommonValidationForm(
+                      inputFormatters: [
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Allow only numeric input
+                      ],
                       hintText: "",
                       // icon: LucideIcons.user,
                       validator: widget.controller.basicValidator
@@ -231,8 +295,12 @@ class _NewOfferState extends State<NewOffer> {
                   children: [
                     MyText.labelLarge("Active Status "),
                     Switch(
-                      onChanged: (vval) {},
-                      value: true,
+                      value: isActive,
+                      onChanged: (value) {
+                        setState(() {
+                          isActive = value;
+                        });
+                      },
                       activeColor: theme.colorScheme.primary,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
@@ -255,6 +323,7 @@ class _NewOfferState extends State<NewOffer> {
                     MyText.bodyMedium('Offer Band 1'),
                     MySpacing.height(8),
                     CommonValidationForm(
+                      readOnly: true,
                       hintText: "Choose File",
                       icon: LucideIcons.upload,
                       iconOnPressed: () async {
@@ -293,6 +362,7 @@ class _NewOfferState extends State<NewOffer> {
                     MyText.bodyMedium('Offer Band 2'),
                     MySpacing.height(8),
                     CommonValidationForm(
+                      readOnly: true,
                       hintText: "Choose File",
                       icon: LucideIcons.upload,
                       iconOnPressed: () async {
@@ -335,7 +405,15 @@ class _NewOfferState extends State<NewOffer> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText.bodyMedium('Store *'),
+                    Row(
+                      children: [
+                        MyText.bodyMedium('Store'),
+                        MyText.bodyMedium(
+                          '*',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    ),
                     MySpacing.height(8),
                     DropdownButtonFormField(
                         dropdownColor: Colors.white,

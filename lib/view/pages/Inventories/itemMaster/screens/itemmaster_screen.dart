@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flowkit/controller/pages/inventory/itemmaster_controller.dart';
 import 'package:flowkit/helpers/theme/app_theme.dart';
 import 'package:flowkit/helpers/utils/mixins/ui_mixin.dart';
@@ -23,10 +24,11 @@ import 'package:flowkit/view/pages/Inventories/itemMaster/widgets/new_subcategor
 import 'package:flowkit/widgets/custom_pop_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xls;
 import 'package:universal_html/html.dart';
+// import 'package:universal_html/html.dart';
 
 class ItemMasterScren extends StatefulWidget {
   const ItemMasterScren({super.key});
@@ -53,6 +55,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
     controller = ItemMasterController(this);
     _controllerTop = ScrollController();
     _controllerbottom = ScrollController();
+
     // test2();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       test2();
@@ -66,6 +69,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
     });
   }
 
+  int index2 = 0;
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -96,8 +100,8 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                               fontSize: 18, fontWeight: 600),
                           MyBreadcrumb(
                             children: [
-                              MyBreadcrumbItem(name: 'sellerkit'),
-                              MyBreadcrumbItem(name: 'itemMaster', active: true)
+                              MyBreadcrumbItem(name: 'Sellerkit'),
+                              MyBreadcrumbItem(name: 'Itemmaster', active: true)
                             ],
                           ),
                         ],
@@ -356,16 +360,21 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                               scrollDirection: Axis.horizontal,
                               controller: _controllerTop,
                               child: Row(children: [
-                                // SizedBox(width: width*0.015,),
+                                SizedBox(
+                                  width: width * 0.012,
+                                ),
                                 // Change 5 to the number of your columns
+                                // SizedBox(
+                                //   width: width * 0.008,
+                                // ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
                                     width: width *
-                                        0.17, // Adjust width as necessary
+                                        0.16, // Adjust width as necessary
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -377,6 +386,9 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                     ),
                                   ),
                                 ),
+                                SizedBox(
+                                  width: width * 0.008,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
@@ -384,7 +396,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                         0.17, // Adjust width as necessary
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -396,14 +408,17 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                     ),
                                   ),
                                 ),
+                                SizedBox(
+                                  width: width * 0.020,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
                                     width: width *
-                                        0.1, // Adjust width as necessary
+                                        0.08, // Adjust width as necessary
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -415,14 +430,17 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                     ),
                                   ),
                                 ),
+                                SizedBox(
+                                  width: width * 0.01,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
                                     width: width *
-                                        0.1, // Adjust width as necessary
+                                        0.09, // Adjust width as necessary
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -434,14 +452,17 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                     ),
                                   ),
                                 ),
+                                SizedBox(
+                                  width: width * 0.008,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
                                     width: width *
-                                        0.1, // Adjust width as necessary
+                                        0.08, // Adjust width as necessary
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -453,14 +474,17 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                     ),
                                   ),
                                 ),
+                                SizedBox(
+                                  width: width * 0.017,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
                                     width: width *
-                                        0.08, // Adjust width as necessary
+                                        0.07, // Adjust width as necessary
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -472,163 +496,219 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: width *
-                                        0.07, // Adjust width as necessary
-                                    child: TextField(
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                        labelText: ' ',
-                                      ),
-                                      onChanged: (value) {
-                                        // Handle search functionality here
-                                      },
-                                    ),
-                                  ),
+                                SizedBox(
+                                  width: width * 0.003,
                                 ),
+                                SizedBox(
+                                  width: width * 0.09,
+                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.all(8.0),
+                                //   child: SizedBox(
+                                //     width: width *
+                                //         0.09, // Adjust width as necessary
+                                //     child: TextField(
+                                //       readOnly: true,
+                                //       decoration: InputDecoration(
+                                //         labelText: 'Action ',
+                                //       ),
+                                //       onChanged: (value) {
+                                //         // Handle search functionality here
+                                //       },
+                                //     ),
+                                //   ),
+                                // ),
                               ]),
                             ),
                           ),
                           NotificationListener<ScrollNotification>(
-                            onNotification: (notification) {
-                              if (notification is ScrollStartNotification) {
-                                if (scrollingList == ScrollingList.none) {
-                                  scrollingList = ScrollingList.right;
+                              onNotification: (notification) {
+                                if (notification is ScrollStartNotification) {
+                                  if (scrollingList == ScrollingList.none) {
+                                    scrollingList = ScrollingList.right;
+                                  }
+                                } else if (notification
+                                    is ScrollEndNotification) {
+                                  if (scrollingList == ScrollingList.right) {
+                                    scrollingList = ScrollingList.none;
+                                  }
                                 }
-                              } else if (notification
-                                  is ScrollEndNotification) {
                                 if (scrollingList == ScrollingList.right) {
-                                  scrollingList = ScrollingList.none;
+                                  _controllerTop
+                                      .jumpTo(_controllerbottom.offset);
                                 }
-                              }
-                              if (scrollingList == ScrollingList.right) {
-                                _controllerTop.jumpTo(_controllerbottom.offset);
-                              }
-                              return true;
-                            },
-                            child: PaginatedDataTable(
-                              controller: _controllerbottom,
-                              showFirstLastButtons: true,
-
-                              source: MyData(
+                                return true;
+                              },
+                              child: PaginatedDataTable(
+                                controller: _controllerbottom,
+                                showFirstLastButtons: true,
+                                sortAscending: true,
+                                initialFirstRowIndex: 1,
+                                availableRowsPerPage: [index2],
+                                sortColumnIndex: 1,
+                                onPageChanged: (index) {
+                                  print("index: $index");
+                                  setState(() {
+                                    index2 = (index / 10).round();
+                                  });
+                                },
+                                source: MyData(
                                   controller.filterItemdata!.isEmpty
                                       ? [
                                           ItemMasterNewData(
-                                              MgrPrice: null,
-                                              itemcode: '',
-                                              itemName: '',
-                                              Segment: '',
-                                              Favorite: '',
-                                              SlpPrice: null,
-                                              Category: '',
-                                              Brand: '',
-                                              Division: '',
-                                              StoreStock: null,
-                                              WhsStock: null,
-                                              id: null,
-                                              allowNegativeStock: null,
-                                              allowOrderBelowCost: null,
-                                              brandCode: '',
-                                              catalogueUrl1: '',
-                                              catalogueUrl2: '',
-                                              clasification: '',
-                                              eol: null,
-                                              fast: null,
-                                              imageUrl1: '',
-                                              imageUrl2: '',
-                                              isFixedPrice: null,
-                                              itemDescription: '',
-                                              itemGroup: '',
-                                              modelNo: '',
-                                              movingType: '',
-                                              partCode: '',
-                                              priceStockId: null,
-                                              serialNumber: null,
-                                              sizeCapacity: '',
-                                              skucode: '',
-                                              slow: null,
-                                              sp: null,
-                                              specification: '',
-                                              ssp1: null,
-                                              ssp1Inc: null,
-                                              ssp2: null,
-                                              ssp2Inc: null,
-                                              ssp3: null,
-                                              ssp3Inc: null,
-                                              ssp4: null,
-                                              ssp4Inc: null,
-                                              ssp5: null,
-                                              ssp5Inc: null,
-                                              status: '-1',
-                                              storeCode: '',
-                                              taxRate: null,
-                                              textNote: '',
-                                              uoM: '',
-                                              veryFast: null,
-                                              verySlow: null,
-                                              whseCode: '',
-                                              color: '',
-                                              validTill: '',
-                                              calcType: '',
-                                              payOn: '')
+                                            MgrPrice: null,
+                                            itemcode: '',
+                                            itemName: '',
+                                            Segment: '',
+                                            Favorite: '',
+                                            SlpPrice: null,
+                                            Category: '',
+                                            Brand: '',
+                                            Division: '',
+                                            StoreStock: null,
+                                            WhsStock: null,
+                                            id: null,
+                                            allowNegativeStock: null,
+                                            allowOrderBelowCost: null,
+                                            brandCode: '',
+                                            catalogueUrl1: '',
+                                            catalogueUrl2: '',
+                                            clasification: '',
+                                            eol: null,
+                                            fast: null,
+                                            imageUrl1: '',
+                                            imageUrl2: '',
+                                            isFixedPrice: null,
+                                            itemDescription: '',
+                                            itemGroup: '',
+                                            modelNo: '',
+                                            movingType: '',
+                                            partCode: '',
+                                            priceStockId: null,
+                                            serialNumber: null,
+                                            sizeCapacity: '',
+                                            skucode: '',
+                                            slow: null,
+                                            sp: null,
+                                            specification: '',
+                                            ssp1: null,
+                                            ssp1Inc: null,
+                                            ssp2: null,
+                                            ssp2Inc: null,
+                                            ssp3: null,
+                                            ssp3Inc: null,
+                                            ssp4: null,
+                                            ssp4Inc: null,
+                                            ssp5: null,
+                                            ssp5Inc: null,
+                                            status: '-1',
+                                            storeCode: '',
+                                            taxRate: null,
+                                            textNote: '',
+                                            uoM: '',
+                                            veryFast: null,
+                                            verySlow: null,
+                                            whseCode: '',
+                                            color: '',
+                                            validTill: '',
+                                            calcType: '',
+                                            payOn: '',
+                                          )
                                         ]
                                       : controller.filterItemdata!,
                                   controller,
-                                  context),
-
-                              columns: [
-                                DataColumn(
-                                  label: MyText.bodyMedium(
-                                    '     Item Code',
-                                    fontWeight: 600,
-                                  ),
+                                  context,
                                 ),
-                                DataColumn(
-                                    label: MyText.bodyMedium(
-                                  'Item Name',
-                                  fontWeight: 600,
-                                )),
-                                DataColumn(
-                                    label: MyText.bodyMedium(
-                                  '  Brand',
-                                  fontWeight: 600,
-                                )),
-                                DataColumn(
-                                    label: MyText.bodyMedium(
-                                  'Category',
-                                  fontWeight: 600,
-                                )),
-                                DataColumn(
-                                    label: MyText.bodyMedium(
-                                  'SubCategory',
-                                  fontWeight: 600,
-                                )),
-                                DataColumn(
-                                  label: MyText.bodyMedium(
-                                    'Status',
-                                    fontWeight: 600,
+                                columns: [
+                                  DataColumn(
+                                    label: SizedBox(
+                                      width: width * 0.18, // Set a fixed width
+                                      child: MyText.bodyMedium(
+                                        '    Item code',
+                                        fontWeight: 600,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                DataColumn(
-                                  label: MyText.bodyMedium(
-                                    'Action',
-                                    fontWeight: 600,
+                                  DataColumn(
+                                    label: SizedBox(
+                                      width: width * 0.19, // Set a fixed width
+                                      child: MyText.bodyMedium(
+                                        'Item Name',
+                                        fontWeight: 600,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                              columnSpacing: 10,
-                              horizontalMargin: 10,
-                              // rowsPerPage: 20,
-
-                              headingRowHeight: height * 0.04,
-                              // ignore: deprecated_member_use
-                              dataRowHeight: height * 0.04,
-                            ),
-                          ),
+                                  DataColumn(
+                                    label: SizedBox(
+                                      width: width * 0.09, // Set a fixed width
+                                      child: MyText.bodyMedium(
+                                        '   Brand',
+                                        fontWeight: 600,
+                                      ),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: SizedBox(
+                                      width: width * 0.09, // Set a fixed width
+                                      child: MyText.bodyMedium(
+                                        'Category',
+                                        fontWeight: 600,
+                                      ),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: SizedBox(
+                                      width: width * 0.08, // Set a fixed width
+                                      child: MyText.bodyMedium(
+                                        'SubCategory',
+                                        fontWeight: 600,
+                                      ),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: SizedBox(
+                                      width: width * 0.07, // Set a fixed width
+                                      child: MyText.bodyMedium(
+                                        'Status',
+                                        fontWeight: 600,
+                                      ),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: SizedBox(
+                                      width: width * 0.07, // Set a fixed width
+                                      child: MyText.bodyMedium(
+                                        'Action',
+                                        fontWeight: 600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                                columnSpacing: 10,
+                                horizontalMargin: 10,
+                                headingRowHeight: height * 0.04,
+                                dataRowHeight: height * 0.04,
+                              )),
                           // MySpacing.height(12),
                           // buildVisitorByChannel()
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: width * 0.75,
+                          ),
+                          Text(
+                            'Page: ${index2 + 1}', // Display current page number (1-based index)
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -642,7 +722,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
   Widget buildAccountMenu() {
     return MyContainer(
       borderRadiusAll: 8,
-      width: 150,
+      width: 152,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -687,28 +767,28 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
             ),
           ),
           MySpacing.height(8),
-          MyButton(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () {
-              // languageHideFn?.call();
-              // Get.offAll(LoginScreen());
-            },
-            borderRadiusAll: AppStyle.buttonRadius.medium,
-            padding: MySpacing.xy(8, 4),
-            splashColor: contentTheme.danger.withAlpha(28),
-            backgroundColor: Colors.transparent,
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/brand/docx.png',
-                  scale: 20,
-                ),
-                MySpacing.width(8),
-                MyText.labelMedium("DOCX",
-                    fontWeight: 600, color: contentTheme.danger)
-              ],
-            ),
-          )
+          // MyButton(
+          //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          //   onPressed: () {
+          //     // languageHideFn?.call();
+          //     // Get.offAll(LoginScreen());
+          //   },
+          //   borderRadiusAll: AppStyle.buttonRadius.medium,
+          //   padding: MySpacing.xy(8, 4),
+          //   splashColor: contentTheme.danger.withAlpha(28),
+          //   backgroundColor: Colors.transparent,
+          //   child: Row(
+          //     children: [
+          //       Image.asset(
+          //         'assets/images/brand/docx.png',
+          //         scale: 20,
+          //       ),
+          //       MySpacing.width(8),
+          //       MyText.labelMedium("DOCX",
+          //           fontWeight: 600, color: contentTheme.danger)
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
@@ -744,7 +824,7 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
     AnchorElement(
         href:
             "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
-      ..setAttribute("download", "output.$exceltype")
+      ..setAttribute("download", "Itemmaster.$exceltype")
       ..click();
     workbook.dispose();
   }
@@ -1034,53 +1114,80 @@ class MyData extends DataTableSource with UIMixin {
 
 /* Common Text Field For Validation */
 class CommonValidationForm extends StatelessWidget {
-  CommonValidationForm(
-      {super.key,
-      required this.controller,
-      required this.outlineInputBorder,
-      this.validator,
-      this.hintText,
-      this.icon,
-      this.onChanged,
-      this.readOnly = false,
-      this.inputFormatters,
-      this.iconOnPressed});
+  CommonValidationForm({
+    super.key,
+    this.isDatePicker = false,
+    this.onDateSelected,
+    required this.controller,
+    required this.outlineInputBorder,
+    this.validator,
+    this.hintText,
+    this.icon,
+    this.onChanged,
+    this.readOnly = false,
+    this.inputFormatters,
+    this.isNumericOnly = false,
+    this.isRequired = false,
+    this.iconOnPressed,
+  });
   Function()? iconOnPressed;
   final List<TextInputFormatter>? inputFormatters;
   final IconData? icon;
   final String? hintText;
+  final bool isRequired;
+  final bool isNumericOnly;
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
   final OutlineInputBorder outlineInputBorder;
   final void Function(String)? onChanged;
   final bool readOnly;
+  final bool isDatePicker;
+  final Function(DateTime)? onDateSelected;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      readOnly: readOnly,
-      controller: controller,
-      inputFormatters: inputFormatters,
-      onChanged: onChanged,
-      decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: MyTextStyle.bodySmall(xMuted: true),
-          border: outlineInputBorder,
-          enabledBorder: outlineInputBorder,
-          focusedBorder: outlineInputBorder,
-          contentPadding: MySpacing.all(16),
-          suffixIcon: iconOnPressed == null
-              ? null
-              : IconButton(
-                  icon: Icon(
-                    icon,
-                    size: 20,
-                    color: theme.primaryColor,
+    return GestureDetector(
+      onTap: isDatePicker ? () => _selectDate(context) : null,
+      child: TextFormField(
+        validator: validator,
+        readOnly: readOnly,
+        controller: controller,
+        inputFormatters: isNumericOnly
+            ? [FilteringTextInputFormatter.digitsOnly]
+            : inputFormatters,
+        onChanged: onChanged,
+        decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: MyTextStyle.bodySmall(xMuted: true),
+            border: outlineInputBorder,
+            enabledBorder: outlineInputBorder,
+            focusedBorder: outlineInputBorder,
+            contentPadding: MySpacing.all(16),
+            suffixIcon: iconOnPressed == null
+                ? null
+                : IconButton(
+                    icon: Icon(
+                      icon,
+                      size: 20,
+                      color: theme.primaryColor,
+                    ),
+                    onPressed: iconOnPressed ?? () {},
                   ),
-                  onPressed: iconOnPressed ?? () {},
-                ),
-          isCollapsed: true,
-          floatingLabelBehavior: FloatingLabelBehavior.never),
+            isCollapsed: true,
+            floatingLabelBehavior: FloatingLabelBehavior.never),
+      ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && onDateSelected != null) {
+      onDateSelected!(
+          picked); // Call the provided callback with the selected date
+    }
   }
 }

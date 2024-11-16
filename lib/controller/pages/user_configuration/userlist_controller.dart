@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flowkit/controller/my_controller.dart';
 import 'package:flowkit/helpers/constants/dataBase_config.dart';
 import 'package:flowkit/helpers/constants/shared_preferences.dart';
-import 'package:flowkit/helpers/constants/utils.dart';
 import 'package:flowkit/helpers/utils/utils.dart';
 import 'package:flowkit/helpers/widgets/my_form_validator.dart';
 import 'package:flowkit/services/getallUsetr_byid_api.dart';
@@ -17,12 +16,11 @@ import 'package:flowkit/services/pages/user_configuration/getallUser_api.dart';
 import 'package:flowkit/widgets/alertdialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class UserListController extends MyController {
   @override
   void onInit() {
-    callvalidator();
+    validator();
     callGetAllStoreapi();
     _callAlluserByIdApi();
     _callAlluserApi();
@@ -44,57 +42,137 @@ class UserListController extends MyController {
 
   List<ItemMasterNewData>? itemdata;
   List<ItemMasterNewData>? get _itemdata => itemdata;
-
   List<ItemMasterNewData>? filterItemdata;
   List<String> brandlist = [];
   List<String> addBrandlist = [];
-
   List<String> categorylist = [];
   List<String> addCategorylist = [];
   List<StoresPostListDt> addStorelist = [];
 
+  TextEditingController mobielcontorller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController filtercontroller = TextEditingController();
+  TextEditingController usernamecontroller = TextEditingController();
+  TextEditingController usercontroller = TextEditingController();
+
+  // Declare controllers map at the class level
+  Map<String, TextEditingController> controllers = {
+    'itemcode': TextEditingController(),
+    'itemname': TextEditingController(),
+    'itemgroup': TextEditingController(),
+    'itemdesc': TextEditingController(),
+    'brand': TextEditingController(),
+    'category': TextEditingController(),
+    'subcategory': TextEditingController(),
+    'brandcode': TextEditingController(),
+    'specification': TextEditingController(),
+    'skucode': TextEditingController(),
+    'modelno': TextEditingController(),
+    'partcode': TextEditingController(),
+    'sizecapacity': TextEditingController(),
+    'clasification': TextEditingController(),
+    'colour': TextEditingController(),
+    'uom': TextEditingController(),
+    'taxrate': TextEditingController(),
+    'textnote': TextEditingController(),
+    'catalogue1': TextEditingController(),
+    'catalogue2': TextEditingController(),
+    'link1': TextEditingController(),
+    'link2': TextEditingController(),
+    'newbrand': TextEditingController(),
+    'newcategory': TextEditingController(),
+    'newsubcategory': TextEditingController(),
+  };
+
   String? category;
   String? brand;
   String? valueStore;
-
   String? reportinguser;
   String? valueUsertype;
   // String? valueUsertyp;
   String? valueDesignation;
   String? templateType;
-
   String? restrictionType;
-
   bool? ismobileUser = false;
   bool? isPortaluser = false;
   bool? status = true;
   bool? isRestriction = false;
-
   PlatformFile? uploadfileField;
 
-  callvalidator() {
-    basicValidator.addField('usercode',
-        required: true, controller: TextEditingController());
-    basicValidator.addField('username',
-        required: true, controller: TextEditingController());
-    basicValidator.addField('mobileno',
-        required: true, controller: TextEditingController());
-    basicValidator.addField('mailid',
-        required: false, controller: TextEditingController());
-    basicValidator.addField('reportingto',
-        required: true, controller: TextEditingController());
-    basicValidator.addField('usertype',
-        required: true, controller: TextEditingController());
-    basicValidator.addField('designation',
-        required: true, controller: TextEditingController());
-    basicValidator.addField('slpcode',
-        required: true, controller: TextEditingController());
-    //
-    basicValidator.addField('uploadfiles',
-        required: false, controller: TextEditingController());
-    basicValidator.addField('templatetype',
-        required: false, controller: TextEditingController());
-    refresh();
+  void validator() async {
+    // Initialize TextEditingController for each field
+    Map<String, TextEditingController> controllers = {
+      'itemcode': TextEditingController(),
+      'itemname': TextEditingController(),
+      'itemgroup': TextEditingController(),
+      'itemdesc': TextEditingController(),
+      'brand': TextEditingController(),
+      'category': TextEditingController(),
+      'subcategory': TextEditingController(),
+      'brandcode': TextEditingController(),
+      'specification': TextEditingController(),
+      'skucode': TextEditingController(),
+      'modelno': TextEditingController(),
+      'partcode': TextEditingController(),
+      'sizecapacity': TextEditingController(),
+      'clasification': TextEditingController(),
+      'colour': TextEditingController(),
+      'uom': TextEditingController(),
+      'taxrate': TextEditingController(),
+      'textnote': TextEditingController(),
+      'catalogue1': TextEditingController(),
+      'catalogue2': TextEditingController(),
+      'link1': TextEditingController(),
+      'link2': TextEditingController(),
+      'newbrand': TextEditingController(),
+      'newcategory': TextEditingController(),
+      'newsubcategory': TextEditingController(),
+    };
+
+    // Add fields to the validator
+    controllers.forEach((key, controller) {
+      basicValidator.addField(
+        key,
+        required: [
+          'itemcode',
+          'itemname',
+          'brand',
+          'category',
+          'subcategory',
+          'sizecapacity',
+          'clasification',
+          'colour',
+          'taxrate',
+          'newbrand',
+          'newcategory',
+          'newsubcategory'
+        ].contains(key),
+        label: key, // Optionally, you can map this to a human-readable label
+        controller: controller,
+        value: controller.text, // Include the value parameter here
+      );
+    });
+
+    update();
+  }
+
+  void clearAllFields() {
+    print("kkkkk");
+    controllers.forEach((key, controller) {
+      controller.clear();
+    });
+
+    reportinguser = null;
+    valueUsertype = null;
+    valueDesignation = null;
+    templateType = null;
+    mobielcontorller.clear();
+    emailController.clear();
+    filtercontroller.clear();
+    usernamecontroller.clear();
+    usercontroller.clear();
+    update();
+    // Refresh the UI if needed
   }
 
   addBrandListMethod() {
@@ -117,7 +195,6 @@ class UserListController extends MyController {
         var data =
             storealldata.where((e) => e.id == int.parse(valueStore!)).toList();
         List<GetAllStoreData> data2 = data.toList();
-        ;
         addStorelist.add(StoresPostListDt(
             storeid: int.parse(valueStore!), storename: data2[0].storeName));
       }
@@ -467,6 +544,12 @@ class UserListController extends MyController {
       filterUserData = userData;
       update();
     }
+  }
+
+  void clearEmailFilter(UserListController userCnt) {
+    emailController.clear();
+    print('clear email'); // Clear the text field
+    filterEmail('', userCnt); // Reset the filter using the provided userCnt
   }
 
   filterStatusBtn(String type) {

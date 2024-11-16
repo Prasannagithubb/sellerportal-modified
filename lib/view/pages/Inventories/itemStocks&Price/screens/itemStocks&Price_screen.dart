@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flowkit/controller/pages/inventory/itemstocksPrice_controller.dart';
 import 'package:flowkit/helpers/theme/app_theme.dart';
 import 'package:flowkit/helpers/utils/mixins/ui_mixin.dart';
@@ -14,8 +15,8 @@ import 'package:flowkit/view/layouts/layout.dart';
 import 'package:flowkit/widgets/custom_pop_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xls;
 import 'package:universal_html/html.dart';
 
@@ -37,14 +38,21 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
   late StocksandPriceController? controller;
   late final ScrollController _controllerTop;
   late final ScrollController _controllerbottom;
+  final ScrollController _horizontalScrollController = ScrollController();
   var scrollingList = ScrollingList.none;
   @override
   void initState() {
     controller = StocksandPriceController();
+    // controller.valueStore = null;
     _controllerTop = ScrollController();
     _controllerbottom = ScrollController();
     super.initState();
   }
+
+  //  final ScrollController _controllerbottom = ScrollController();
+  int _rowsPerPage = 10; // Default rows per page
+  List<int> _availableRowsPerPage = [5, 10, 50, 100];
+  int index2 = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +84,9 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
                               fontSize: 18, fontWeight: 600),
                           MyBreadcrumb(
                             children: [
-                              MyBreadcrumbItem(name: 'sellerkit'),
+                              MyBreadcrumbItem(name: 'Sellerkit'),
                               MyBreadcrumbItem(
-                                  name: 'item Stocks&Price', active: true)
+                                  name: 'Item Stocks&Price', active: true)
                             ],
                           ),
                         ],
@@ -412,6 +420,23 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
                                     ),
                                   ),
                                 ),
+                                Scrollbar(
+                                  controller: _horizontalScrollController,
+                                  thumbVisibility: true,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    controller: _horizontalScrollController,
+                                    child: Container(
+                                      // A container with a width equal to the width of the screen
+                                      width:
+                                          width, // Makes scrollbar span full width
+                                      height:
+                                          20, // Adjust height for scrollbar visibility
+                                      child:
+                                          const SizedBox(), // Placeholder to make the scrollbar visible
+                                    ),
+                                  ),
+                                ),
                               ]),
                             ),
                           ),
@@ -437,143 +462,206 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
                                     }
                                     return true;
                                   },
-                                  child: PaginatedDataTable(
-                                    controller: _controllerbottom,
-                                    showFirstLastButtons: true,
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text('Rows per page: '),
+                                              DropdownButton<int>(
+                                                value: _rowsPerPage,
+                                                onChanged: (int? newValue) {
+                                                  if (newValue != null) {
+                                                    setState(() {
+                                                      _rowsPerPage = newValue;
+                                                    });
+                                                  }
+                                                },
+                                                items: _availableRowsPerPage
+                                                    .map((int value) {
+                                                  return DropdownMenuItem<int>(
+                                                    value: value,
+                                                    child: Text('$value'),
+                                                  );
+                                                }).toList(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        PaginatedDataTable(
+                                          controller: _controllerbottom,
+                                          showFirstLastButtons: true,
+                                          sortColumnIndex: 1,
+                                          sortAscending: true,
 
-                                    source: MyData(
-                                        controller.filterDatalist.isEmpty
-                                            ? [
-                                                GetAllStocksPriceData(
-                                                    id: 0,
-                                                    itemCode: '',
-                                                    itemName: '',
-                                                    brand: '',
-                                                    category: '',
-                                                    subCategory: '',
-                                                    itemDescription: '',
-                                                    modelNo: '',
-                                                    partCode: '',
-                                                    skucode: '',
-                                                    brandCode: '',
-                                                    itemGroup: '',
-                                                    specification: '',
-                                                    sizeCapacity: '',
-                                                    color: '',
-                                                    clasification: '',
-                                                    uoM: '',
-                                                    taxRate: 0,
-                                                    catalogueUrl1: '',
-                                                    catalogueUrl2: '',
-                                                    imageUrl1: '',
-                                                    imageUrl2: '',
-                                                    textNote: '',
-                                                    status: '',
-                                                    movingType: '',
-                                                    eol: false,
-                                                    veryFast: false,
-                                                    fast: false,
-                                                    slow: false,
-                                                    verySlow: false,
-                                                    serialNumber: false,
-                                                    priceStockId: 0,
-                                                    storeCode: '',
-                                                    storeStock: 0.0,
-                                                    whseCode: '',
-                                                    whseStock: 0.0,
-                                                    mrp: 0.0,
-                                                    cost: 0.0,
-                                                    sp: 0.0,
-                                                    ssp1: 0.0,
-                                                    ssp2: 0.0,
-                                                    ssp3: 0.0,
-                                                    ssp4: 0.0,
-                                                    ssp5: 0.0,
-                                                    ssp1Inc: 0.0,
-                                                    ssp2Inc: 0.0,
-                                                    ssp3Inc: 0.0,
-                                                    ssp4Inc: 0.0,
-                                                    ssp5Inc: 0.0,
-                                                    calcType: '',
-                                                    payOn: '',
-                                                    allowNegativeStock: false,
-                                                    allowOrderBelowCost: false,
-                                                    isFixedPrice: false,
-                                                    validTill: '',
-                                                    storeAgeSlab1: 0.0,
-                                                    storeAgeSlab2: 0.0,
-                                                    storeAgeSlab3: 0.0,
-                                                    storeAgeSlab4: 0.0,
-                                                    storeAgeSlab5: 0.0,
-                                                    whsAgeSlab1: 0.0,
-                                                    whsAgeSlab2: 0.0,
-                                                    whsAgeSlab3: 0.0,
-                                                    whsAgeSlab4: 0.0,
-                                                    whsAgeSlab5: 0.0)
-                                              ]
-                                            : controller.filterDatalist,
-                                        controller,
-                                        context),
-                                    columns: [
-                                      DataColumn(
-                                        label: MyText.bodyMedium(
-                                          '   Item Code',
-                                          fontWeight: 600,
+                                          onPageChanged: (index) {
+                                            setState(() {
+                                              index2 = index ~/ _rowsPerPage;
+                                            });
+                                            print("Current page index: $index");
+                                          },
+                                          source: MyData(
+                                              controller.filterDatalist.isEmpty
+                                                  ? [
+                                                      GetAllStocksPriceData(
+                                                          id: 0,
+                                                          itemCode: '',
+                                                          itemName: '',
+                                                          brand: '',
+                                                          category: '',
+                                                          subCategory: '',
+                                                          itemDescription: '',
+                                                          modelNo: '',
+                                                          partCode: '',
+                                                          skucode: '',
+                                                          brandCode: '',
+                                                          itemGroup: '',
+                                                          specification: '',
+                                                          sizeCapacity: '',
+                                                          color: '',
+                                                          clasification: '',
+                                                          uoM: '',
+                                                          taxRate: 0,
+                                                          catalogueUrl1: '',
+                                                          catalogueUrl2: '',
+                                                          imageUrl1: '',
+                                                          imageUrl2: '',
+                                                          textNote: '',
+                                                          status: '',
+                                                          movingType: '',
+                                                          eol: false,
+                                                          veryFast: false,
+                                                          fast: false,
+                                                          slow: false,
+                                                          verySlow: false,
+                                                          serialNumber: false,
+                                                          priceStockId: 0,
+                                                          storeCode: '',
+                                                          storeStock: 0.0,
+                                                          whseCode: '',
+                                                          whseStock: 0.0,
+                                                          mrp: 0.0,
+                                                          cost: 0.0,
+                                                          sp: 0.0,
+                                                          ssp1: 0.0,
+                                                          ssp2: 0.0,
+                                                          ssp3: 0.0,
+                                                          ssp4: 0.0,
+                                                          ssp5: 0.0,
+                                                          ssp1Inc: 0.0,
+                                                          ssp2Inc: 0.0,
+                                                          ssp3Inc: 0.0,
+                                                          ssp4Inc: 0.0,
+                                                          ssp5Inc: 0.0,
+                                                          calcType: '',
+                                                          payOn: '',
+                                                          allowNegativeStock:
+                                                              false,
+                                                          allowOrderBelowCost:
+                                                              false,
+                                                          isFixedPrice: false,
+                                                          validTill: '',
+                                                          storeAgeSlab1: 0.0,
+                                                          storeAgeSlab2: 0.0,
+                                                          storeAgeSlab3: 0.0,
+                                                          storeAgeSlab4: 0.0,
+                                                          storeAgeSlab5: 0.0,
+                                                          whsAgeSlab1: 0.0,
+                                                          whsAgeSlab2: 0.0,
+                                                          whsAgeSlab3: 0.0,
+                                                          whsAgeSlab4: 0.0,
+                                                          whsAgeSlab5: 0.0)
+                                                    ]
+                                                  : controller.filterDatalist,
+                                              controller,
+                                              context),
+                                          columns: [
+                                            DataColumn(
+                                              label: MyText.bodyMedium(
+                                                'Item Code',
+                                                fontWeight: 600,
+                                              ),
+                                            ),
+                                            DataColumn(
+                                                label: MyText.bodyMedium(
+                                              'Item Name',
+                                              fontWeight: 600,
+                                            )),
+                                            DataColumn(
+                                                label: MyText.bodyMedium(
+                                              'Store Code',
+                                              fontWeight: 600,
+                                            )),
+                                            DataColumn(
+                                                label: MyText.bodyMedium(
+                                              'Store Stock',
+                                              fontWeight: 600,
+                                            )),
+                                            DataColumn(
+                                                label: MyText.bodyMedium(
+                                              'Warehouse Code',
+                                              fontWeight: 600,
+                                            )),
+                                            DataColumn(
+                                              label: MyText.bodyMedium(
+                                                'Warehouse Stock',
+                                                // textAlign: TextAlign.center,
+                                                fontWeight: 600,
+                                              ),
+                                            ),
+                                            DataColumn(
+                                              label: MyText.bodyMedium(
+                                                'MRP',
+                                                fontWeight: 600,
+                                              ),
+                                            ),
+                                            DataColumn(
+                                              label: MyText.bodyMedium(
+                                                'Cost',
+                                                fontWeight: 600,
+                                              ),
+                                            ),
+                                            DataColumn(
+                                              label: MyText.bodyMedium(
+                                                'SP',
+                                                fontWeight: 600,
+                                              ),
+                                            ),
+                                          ],
+                                          columnSpacing: 10,
+                                          horizontalMargin: 10,
+                                          // rowsPerPage: 20,
+                                          headingRowHeight: height * 0.04,
+                                          dataRowHeight: height * 0.04,
                                         ),
-                                      ),
-                                      DataColumn(
-                                          label: MyText.bodyMedium(
-                                        'Item Name',
-                                        fontWeight: 600,
-                                      )),
-                                      DataColumn(
-                                          label: MyText.bodyMedium(
-                                        'Store Code',
-                                        fontWeight: 600,
-                                      )),
-                                      DataColumn(
-                                          label: MyText.bodyMedium(
-                                        'Store Stock',
-                                        fontWeight: 600,
-                                      )),
-                                      DataColumn(
-                                          label: MyText.bodyMedium(
-                                        'Warehouse Code',
-                                        fontWeight: 600,
-                                      )),
-                                      DataColumn(
-                                        label: MyText.bodyMedium(
-                                          'Warehouse Stock',
-                                          // textAlign: TextAlign.center,
-                                          fontWeight: 600,
-                                        ),
-                                      ),
-                                      DataColumn(
-                                        label: MyText.bodyMedium(
-                                          'MRP',
-                                          fontWeight: 600,
-                                        ),
-                                      ),
-                                      DataColumn(
-                                        label: MyText.bodyMedium(
-                                          'Cost',
-                                          fontWeight: 600,
-                                        ),
-                                      ),
-                                      DataColumn(
-                                        label: MyText.bodyMedium(
-                                          'SP',
-                                          fontWeight: 600,
-                                        ),
-                                      ),
-                                    ],
-                                    columnSpacing: 10,
-                                    horizontalMargin: 10,
-                                    // rowsPerPage: 20,
-                                    headingRowHeight: height * 0.04,
-                                    dataRowHeight: height * 0.04,
+                                      ],
+                                    ),
                                   ),
                                 ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: width * 0.75,
+                                ),
+                                Text(
+                                  'Page: ${index2 + 1}', // Display current page number (1-based index)
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
                           // MySpacing.height(12),
                           // buildVisitorByChannel()
                         ],
@@ -634,28 +722,28 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
             ),
           ),
           MySpacing.height(8),
-          MyButton(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () {
-              // languageHideFn?.call();
-              // Get.offAll(LoginScreen());
-            },
-            borderRadiusAll: AppStyle.buttonRadius.medium,
-            padding: MySpacing.xy(8, 4),
-            splashColor: contentTheme.danger.withAlpha(28),
-            backgroundColor: Colors.transparent,
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/brand/docx.png',
-                  scale: 20,
-                ),
-                MySpacing.width(8),
-                MyText.labelMedium("DOCX",
-                    fontWeight: 600, color: contentTheme.danger)
-              ],
-            ),
-          )
+          // MyButton(
+          //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          //   onPressed: () {
+          //     // languageHideFn?.call();
+          //     // Get.offAll(LoginScreen());
+          //   },
+          //   borderRadiusAll: AppStyle.buttonRadius.medium,
+          //   padding: MySpacing.xy(8, 4),
+          //   splashColor: contentTheme.danger.withAlpha(28),
+          //   backgroundColor: Colors.transparent,
+          //   child: Row(
+          //     children: [
+          //       Image.asset(
+          //         'assets/images/brand/docx.png',
+          //         scale: 20,
+          //       ),
+          //       MySpacing.width(8),
+          //       MyText.labelMedium("DOCX",
+          //           fontWeight: 600, color: contentTheme.danger)
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
@@ -699,7 +787,7 @@ class _ItemStocksPriceScreenState extends State<ItemStocksPriceScreen>
     AnchorElement(
         href:
             "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
-      ..setAttribute("download", "output.$exceltype")
+      ..setAttribute("download", "Item stocks & price.$exceltype")
       ..click();
     workbook.dispose();
   }

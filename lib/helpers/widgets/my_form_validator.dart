@@ -16,7 +16,8 @@ class MyFormValidator {
       {bool required = false,
       List<MyFieldValidatorRule<T>> validators = const [],
       String? label,
-      TextEditingController? controller}) {
+      required TextEditingController? controller,
+      value}) {
     _validators[name] = _createValidation<T>(name,
         required: required, validators: validators, label: label);
     if (controller != null) _controllers[name] = controller;

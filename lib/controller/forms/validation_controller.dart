@@ -38,6 +38,7 @@ class ValidationController extends MyController {
       required: true,
       label: "Gender",
       validators: [GenderValidator()],
+      controller: TextEditingController(),
     );
   }
 

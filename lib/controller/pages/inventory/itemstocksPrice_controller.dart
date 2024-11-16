@@ -5,7 +5,6 @@ import 'package:flowkit/services/pages/inventory/item_stocks&price/getall_stocks
 import 'package:flowkit/services/pages/setups/getall_store_api.dart';
 import 'package:flowkit/widgets/alertdialog_box.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class StocksandPriceController extends MyController {
   @override
@@ -45,11 +44,12 @@ class StocksandPriceController extends MyController {
   }
 
   clearall() {
+    print('clearall pressed');
     storealldata.clear();
     filterStorealldata.clear();
     datalist.clear();
     filterDatalist.clear();
-    // valueStore = null;
+    valueStore = null;
     update();
   }
 

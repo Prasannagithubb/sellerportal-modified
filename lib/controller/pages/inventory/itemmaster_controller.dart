@@ -389,7 +389,6 @@ class ItemMasterController extends MyController {
 
   List<String> brandlist = [];
   List<String> categorylist = [];
-
   List<String> subCategorylist = [];
 
   filterItemName(String? val, ItemMasterController cnt, BuildContext context) {
@@ -489,7 +488,6 @@ class ItemMasterController extends MyController {
           List<String> categorylist2 =
               filterItemdata!.map((item) => item.Category ?? '').toList();
           categorylist = LinkedHashSet<String>.from(categorylist2).toList();
-
           List<String> subCategorylist2 =
               filterItemdata!.map((item) => item.Segment ?? '').toList();
           subCategorylist =
@@ -506,11 +504,6 @@ class ItemMasterController extends MyController {
         ));
       }
     });
-  }
-
-  void removeData(index) {
-    visitorByChannel.removeAt(index);
-    update();
   }
 
   void clearGNDtls() {
@@ -552,6 +545,29 @@ class ItemMasterController extends MyController {
     refresh();
     update();
   }
+
+  void removeData(int index) {
+    print('Invalid index for visitorByChannel');
+    print(filterItemdata![index].Brand);
+    visitorByChannel.removeAt(index);
+    filterItemdata!.removeAt(index);
+    update();
+    // if (index < 0 || index >= visitorByChannel.length) {
+    //   return;
+    // }
+    // if (filterItemdata != null && index < filterItemdata!.length) {
+    //   print('Item removed successfully');
+    // } else {
+    //   print('Invalid index for filterItemdata or it is null');
+    // }
+  }
+  // void removeData(index) {
+  //   print('hi');
+  //   visitorByChannel.removeAt(index);
+  //   filterItemdata?.removeAt(index);
+  //   update();
+  //   print('hi');
+  // }
 
   void storeDeletebyId(int deletId) async {
     await ItemDeleteApi.callapi(deletId).then((onValue) {

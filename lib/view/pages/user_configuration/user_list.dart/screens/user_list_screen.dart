@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flowkit/controller/pages/user_configuration/userlist_controller.dart';
 import 'package:flowkit/helpers/services/url_service.dart';
 import 'package:flowkit/helpers/theme/app_theme.dart';
@@ -17,10 +18,11 @@ import 'package:flowkit/view/pages/user_configuration/user_list.dart/widgets/new
 import 'package:flowkit/widgets/custom_pop_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xls;
 import 'package:universal_html/html.dart';
+// import 'package:flowkit/controller/pages/user_configuration/userlist_controller.dart';
 
 class UserListScreen extends StatefulWidget {
   const UserListScreen({super.key});
@@ -37,10 +39,15 @@ enum ScrollingList {
 
 class _UserListScreenState extends State<UserListScreen>
     with TickerProviderStateMixin, UIMixin {
+  late UserListController controller1;
+
   UserListController? controller;
   late final ScrollController _controllerTop;
   late final ScrollController _controllerbottom;
   var scrollingList = ScrollingList.none;
+  int rowsPerPage = 10;
+  List<int> availableRowsPerPage = [10, 20, 50, 100];
+  int selectedRowsPerPage = 10;
 
   @override
   void initState() {
@@ -60,6 +67,11 @@ class _UserListScreenState extends State<UserListScreen>
       child: GetBuilder(
         init: controller,
         builder: (controller) {
+          TextEditingController mobielcontorller = TextEditingController();
+          TextEditingController emailController = TextEditingController();
+          TextEditingController filtercontroller = TextEditingController();
+          TextEditingController usernamecontroller = TextEditingController();
+          TextEditingController usercontroller = TextEditingController();
           return controller.isLoad
               ? SizedBox(
                   height: height,
@@ -81,8 +93,8 @@ class _UserListScreenState extends State<UserListScreen>
                               fontSize: 18, fontWeight: 600),
                           MyBreadcrumb(
                             children: [
-                              MyBreadcrumbItem(name: 'sellerkit'),
-                              MyBreadcrumbItem(name: 'userlist', active: true)
+                              MyBreadcrumbItem(name: 'Sellerkit'),
+                              MyBreadcrumbItem(name: 'Userlist', active: true)
                             ],
                           ),
                         ],
@@ -126,6 +138,7 @@ class _UserListScreenState extends State<UserListScreen>
                                   ),
                                   onPressed: () {
                                     controller.filterStatusBtn('In Active');
+                                    controller.clearAllFields();
                                   },
                                   child: Row(
                                     children: [
@@ -153,25 +166,24 @@ class _UserListScreenState extends State<UserListScreen>
                                         (await controller.callApi('1'))!;
                                     List<SetupsCommonData>? designationlist =
                                         (await controller.callApi('23'))!;
-
-                                    Get.dialog(
+                                    showDialog(
                                       barrierDismissible: false,
-                                      Dialog(
-                                          clipBehavior: Clip.none,
-                                          // insetPadding: EdgeInsets.all(50),
-                                          child: NewUserAdd(
-                                            outlineInputBorder:
-                                                outlineInputBorder,
-                                            colorScheme: colorScheme,
-                                            focusedInputBorder:
-                                                focusedInputBorder,
-                                            contentTheme: contentTheme,
-                                            controller: controller,
-                                            heigth: height,
-                                            width: width / 2,
-                                            usertypelist: usertypelist,
-                                            designationlist: designationlist,
-                                          )),
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: NewUserAdd(
+                                          outlineInputBorder:
+                                              outlineInputBorder,
+                                          colorScheme: colorScheme,
+                                          focusedInputBorder:
+                                              focusedInputBorder,
+                                          contentTheme: contentTheme,
+                                          controller: controller,
+                                          heigth: height,
+                                          width: width / 2,
+                                          usertypelist: usertypelist,
+                                          designationlist: designationlist,
+                                        ),
+                                      ),
                                     );
                                   },
                                   child: Row(
@@ -287,8 +299,9 @@ class _UserListScreenState extends State<UserListScreen>
                                   child: SizedBox(
                                     width: width * 0.08,
                                     child: TextField(
+                                      controller: filtercontroller,
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -305,6 +318,7 @@ class _UserListScreenState extends State<UserListScreen>
                                   child: SizedBox(
                                     width: width * 0.1,
                                     child: TextField(
+                                      controller: usercontroller,
                                       decoration: InputDecoration(
                                           labelText: ' ',
                                           suffixIcon: Icon(
@@ -323,6 +337,7 @@ class _UserListScreenState extends State<UserListScreen>
                                   child: SizedBox(
                                     width: width * 0.1,
                                     child: TextField(
+                                      controller: usernamecontroller,
                                       decoration: InputDecoration(
                                           labelText: ' ',
                                           suffixIcon: Icon(
@@ -341,8 +356,15 @@ class _UserListScreenState extends State<UserListScreen>
                                   child: SizedBox(
                                     width: width * 0.1,
                                     child: TextField(
+                                      controller: mobielcontorller,
+                                      keyboardType: TextInputType
+                                          .number, // Shows numeric keyboard
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter
+                                            .digitsOnly, // Allows only digits
+                                      ],
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -359,8 +381,9 @@ class _UserListScreenState extends State<UserListScreen>
                                   child: SizedBox(
                                     width: width * 0.1,
                                     child: TextField(
+                                      controller: emailController,
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -380,7 +403,7 @@ class _UserListScreenState extends State<UserListScreen>
                                     child: TextField(
                                       readOnly: true,
                                       decoration: InputDecoration(
-                                        labelText: ' ',
+                                        labelText: '',
                                       ),
                                       onChanged: (value) {
                                         // Handle search functionality here
@@ -395,7 +418,7 @@ class _UserListScreenState extends State<UserListScreen>
                                         0.09, // Adjust width as necessary
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          labelText: ' ',
+                                          labelText: '',
                                           suffixIcon: Icon(
                                             LucideIcons.filter,
                                             color: Colors.grey[300],
@@ -697,6 +720,30 @@ class _UserListScreenState extends State<UserListScreen>
                         ],
                       ),
                     ),
+                    //  onChanged: (int? newValue) {
+                    //     setState(() {
+                    //       selectedRowsPerPage = newValue!;
+                    //       rowsPerPage =
+                    //           selectedRowsPerPage; // Update rowsPerPage
+                    //     });
+                    DropdownButton<int>(
+                      value: selectedRowsPerPage,
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          selectedRowsPerPage = newValue!;
+                          rowsPerPage =
+                              selectedRowsPerPage; // Update rowsPerPage
+                        });
+                      },
+                      items: availableRowsPerPage
+                          .map<DropdownMenuItem<int>>((int value) {
+                        return DropdownMenuItem<int>(
+                          value: value,
+                          child: Text('$value rows'),
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 20),
                   ],
                 );
         },
@@ -752,28 +799,28 @@ class _UserListScreenState extends State<UserListScreen>
             ),
           ),
           MySpacing.height(8),
-          MyButton(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () {
-              // languageHideFn?.call();
-              // Get.offAll(LoginScreen());
-            },
-            borderRadiusAll: AppStyle.buttonRadius.medium,
-            padding: MySpacing.xy(8, 4),
-            splashColor: contentTheme.danger.withAlpha(28),
-            backgroundColor: Colors.transparent,
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/brand/docx.png',
-                  scale: 20,
-                ),
-                MySpacing.width(8),
-                MyText.labelMedium("DOCX",
-                    fontWeight: 600, color: contentTheme.danger)
-              ],
-            ),
-          )
+          // MyButton(
+          //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          //   onPressed: () {
+          //     // languageHideFn?.call();
+          //     // Get.offAll(LoginScreen());
+          //   },
+          //   borderRadiusAll: AppStyle.buttonRadius.medium,
+          //   padding: MySpacing.xy(8, 4),
+          //   splashColor: contentTheme.danger.withAlpha(28),
+          //   backgroundColor: Colors.transparent,
+          //   child: Row(
+          //     children: [
+          //       Image.asset(
+          //         'assets/images/brand/docx.png',
+          //         scale: 20,
+          //       ),
+          //       MySpacing.width(8),
+          //       MyText.labelMedium("DOCX",
+          //           fontWeight: 600, color: contentTheme.danger)
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
@@ -815,7 +862,7 @@ class _UserListScreenState extends State<UserListScreen>
     AnchorElement(
         href:
             "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
-      ..setAttribute("download", "output.$exceltype")
+      ..setAttribute("download", "User list.$exceltype")
       ..click();
     workbook.dispose();
   }
@@ -964,7 +1011,6 @@ class MyData extends DataTableSource with UIMixin {
                         ),
                       ),
                       MySpacing.width(12),
-
                       MyContainer.bordered(
                         onTap: () => {},
                         padding: MySpacing.xy(6, 6),
@@ -976,7 +1022,6 @@ class MyData extends DataTableSource with UIMixin {
                         ),
                       ),
                       MySpacing.width(12),
-
                       MyContainer.bordered(
                         onTap: () => {},
                         padding: MySpacing.xy(6, 6),
@@ -988,7 +1033,6 @@ class MyData extends DataTableSource with UIMixin {
                         ),
                       ),
                       MySpacing.width(12),
-
                       MyContainer.bordered(
                         onTap: () => {},
                         padding: MySpacing.xy(6, 6),
