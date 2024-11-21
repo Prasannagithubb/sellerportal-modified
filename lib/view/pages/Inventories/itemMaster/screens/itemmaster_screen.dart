@@ -69,6 +69,9 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
     });
   }
 
+  int selectedRowsPerPageformaster = 20;
+  int rowsPerPagemaster = 10; // Default rows per page
+  List<int> availableRowsPerPagemaster = [10, 20, 50, 100];
   int index2 = 0;
   @override
   Widget build(BuildContext context) {
@@ -541,17 +544,21 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                               },
                               child: PaginatedDataTable(
                                 controller: _controllerbottom,
+                                rowsPerPage: rowsPerPagemaster,
+                                availableRowsPerPage:
+                                    availableRowsPerPagemaster,
+
                                 showFirstLastButtons: true,
                                 sortAscending: true,
                                 initialFirstRowIndex: 1,
-                                availableRowsPerPage: [index2],
+
                                 sortColumnIndex: 1,
-                                onPageChanged: (index) {
-                                  print("index: $index");
-                                  setState(() {
-                                    index2 = (index / 10).round();
-                                  });
-                                },
+                                // onPageChanged: (index) {
+                                //   print("index: $index");
+                                //   setState(() {
+                                //     index2 = (index / 10).round();
+                                //   });
+                                // },
                                 source: MyData(
                                   controller.filterItemdata!.isEmpty
                                       ? [
@@ -694,24 +701,84 @@ class _ItemMasterScrenState extends State<ItemMasterScren>
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: width * 0.75,
-                          ),
-                          Text(
-                            'Page: ${index2 + 1}', // Display current page number (1-based index)
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            // Label for "Page Size:"
+                            SizedBox(
+                              height: 30,
+                              width: width * 0.75,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                            const Text(
+                              'Page Size:',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                                width: 8), // Space between text and dropdown
+                            // DropdownButton with BoxDecoration
+                            Container(
+                              // width: 63,
+                              // height: 40,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: DropdownButton<int>(
+                                // menuMaxHeight: 100,
+                                // itemHeight: 48.0,
+                                value: selectedRowsPerPageformaster,
+                                // borderRadius: BorderRadius.circular(10),
+                                // style: TextStyle(fontSize: 10),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    if (newValue != null) {
+                                      selectedRowsPerPageformaster = newValue;
+                                      rowsPerPagemaster = newValue;
+                                      print(selectedRowsPerPageformaster);
+                                    }
+                                  });
+                                },
+                                items: availableRowsPerPagemaster
+                                    .map<DropdownMenuItem<int>>((int value) {
+                                  return DropdownMenuItem<int>(
+                                    alignment: Alignment.center,
+                                    value: value,
+                                    child: Text(
+                                      '$value',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  );
+                                }).toList(),
+                                icon: const Icon(Icons.arrow_drop_down,
+                                    color: Colors.grey),
+                                iconSize: 20,
+                                underline:
+                                    SizedBox(), // Removes the default underline
+                                dropdownColor: Colors.white,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                ),
+                                isDense:
+                                    true, // Makes the dropdown more compact
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
                   ],
                 );
         },

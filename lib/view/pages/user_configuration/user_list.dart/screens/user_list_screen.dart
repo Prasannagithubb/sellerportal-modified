@@ -216,7 +216,9 @@ class _UserListScreenState extends State<UserListScreen>
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _showCreateExcelDialog(context);
+                                  },
                                   child: Row(
                                     children: [
                                       Icon(
@@ -468,7 +470,7 @@ class _UserListScreenState extends State<UserListScreen>
                             },
                             child: PaginatedDataTable(
                               controller: _controllerbottom,
-
+                              showFirstLastButtons: true,
                               // sortColumnIndex: 5,
                               // header: Row(
                               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -726,29 +728,61 @@ class _UserListScreenState extends State<UserListScreen>
                     //       rowsPerPage =
                     //           selectedRowsPerPage; // Update rowsPerPage
                     //     });
-                    DropdownButton<int>(
-                      value: selectedRowsPerPage,
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          selectedRowsPerPage = newValue!;
-                          rowsPerPage =
-                              selectedRowsPerPage; // Update rowsPerPage
-                        });
-                      },
-                      items: availableRowsPerPage
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text('$value rows'),
-                        );
-                      }).toList(),
-                    ),
+                    // DropdownButton<int>(
+                    //   value: selectedRowsPerPage,
+                    //   onChanged: (int? newValue) {
+                    //     setState(() {
+                    //       selectedRowsPerPage = newValue!;
+                    //       rowsPerPage =
+                    //           selectedRowsPerPage; // Update rowsPerPage
+                    //     });
+                    //   },
+                    //   items: availableRowsPerPage
+                    //       .map<DropdownMenuItem<int>>((int value) {
+                    //     return DropdownMenuItem<int>(
+                    //       value: value,
+                    //       child: Text('$value rows'),
+                    //     );
+                    //   }).toList(),
+                    // ),
                     SizedBox(height: 20),
                   ],
                 );
         },
       ),
     );
+  }
+
+  void _showCreateExcelDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Create a new Excel"),
+          content: Text("Do you want to create a new Excel file?"),
+          actions: [
+            TextButton(
+              child: Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+            ),
+            TextButton(
+              child: Text("Yes"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+                _createdExcel(); // Call your Excel creation logic
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _createdExcel() {
+    // Add your Excel creation logic here
+    print("New Excel file created");
   }
 
   Widget buildAccountMenu() {
@@ -977,19 +1011,12 @@ class MyData extends DataTableSource with UIMixin {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // MyContainer.bordered(
-                      //   onTap: () => {},
-                      //   padding: MySpacing.xy(6, 6),
-                      //   borderColor: contentTheme.primary.withAlpha(40),
-                      //   child: Icon(
-                      //     LucideIcons.pencil,
-                      //     size: 12,
-                      //     color: contentTheme.primary,
-                      //   ),
-                      // ),
-                      // MySpacing.width(12),
                       MyContainer.bordered(
-                        onTap: () => {},
+                        onTap: () {
+                          // Edit action
+                          print("Edit action triggered");
+                          _editAction(context);
+                        },
                         padding: MySpacing.xy(6, 6),
                         borderColor: contentTheme.primary.withAlpha(40),
                         child: Icon(
@@ -999,9 +1026,12 @@ class MyData extends DataTableSource with UIMixin {
                         ),
                       ),
                       MySpacing.width(12),
-
                       MyContainer.bordered(
-                        onTap: () => {},
+                        onTap: () {
+                          // Delete action
+                          print("Delete action triggered");
+                          _deleteAction(context);
+                        },
                         padding: MySpacing.xy(6, 6),
                         borderColor: contentTheme.primary.withAlpha(40),
                         child: Icon(
@@ -1012,7 +1042,11 @@ class MyData extends DataTableSource with UIMixin {
                       ),
                       MySpacing.width(12),
                       MyContainer.bordered(
-                        onTap: () => {},
+                        onTap: () {
+                          // Logout action
+                          print("Logout action triggered");
+                          _logoutAction(context);
+                        },
                         padding: MySpacing.xy(6, 6),
                         borderColor: contentTheme.primary.withAlpha(40),
                         child: Icon(
@@ -1023,7 +1057,11 @@ class MyData extends DataTableSource with UIMixin {
                       ),
                       MySpacing.width(12),
                       MyContainer.bordered(
-                        onTap: () => {},
+                        onTap: () {
+                          // Lock action
+                          print("Lock action triggered");
+                          _lockAction(context);
+                        },
                         padding: MySpacing.xy(6, 6),
                         borderColor: contentTheme.primary.withAlpha(40),
                         child: Icon(
@@ -1034,7 +1072,11 @@ class MyData extends DataTableSource with UIMixin {
                       ),
                       MySpacing.width(12),
                       MyContainer.bordered(
-                        onTap: () => {},
+                        onTap: () {
+                          // Key action
+                          print("Key action triggered");
+                          _keyAction(context);
+                        },
                         padding: MySpacing.xy(6, 6),
                         borderColor: contentTheme.primary.withAlpha(40),
                         child: Icon(
@@ -1050,6 +1092,74 @@ class MyData extends DataTableSource with UIMixin {
       ],
     );
   }
+}
+
+void _editAction(BuildContext context) {
+  _showDialog(
+    context,
+    title: "Edit Action",
+    content: "Do you want to edit this item?",
+  );
+}
+
+void _deleteAction(BuildContext context) {
+  _showDialog(
+    context,
+    title: "Delete Action",
+    content: "Are you sure you want to delete this item?",
+  );
+}
+
+void _logoutAction(BuildContext context) {
+  _showDialog(
+    context,
+    title: "Logout Action",
+    content: "Do you want to log out?",
+  );
+}
+
+void _lockAction(BuildContext context) {
+  _showDialog(
+    context,
+    title: "Lock Action",
+    content: "Do you want to lock this item?",
+  );
+}
+
+void _keyAction(BuildContext context) {
+  _showDialog(
+    context,
+    title: "Key Action",
+    content: "Do you want to access this item?",
+  );
+}
+
+void _showDialog(BuildContext context,
+    {required String title, required String content}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close dialog
+            },
+          ),
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close dialog
+              // Add additional functionality here if needed
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
 
 /* Common Text Field For Validation */

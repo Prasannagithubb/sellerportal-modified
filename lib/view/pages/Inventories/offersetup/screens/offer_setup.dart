@@ -51,13 +51,14 @@ class _OfferSetupScreenState extends State<OfferSetupScreen>
     super.initState();
   }
 
+  int selectedRowsPerPage = 20;
+  int rowsPerPage = 10; // Default rows per page
+  List<int> availableRowsPerPage = [10, 20, 50, 100]; // Available options
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    int rowsPerPage = 10; // Default rows per page
-    List<int> availableRowsPerPage = [10, 20, 50, 100]; // Available options
-    int selectedRowsPerPage = 20;
 
     return Layout(
       child: GetBuilder(
@@ -286,12 +287,12 @@ class _OfferSetupScreenState extends State<OfferSetupScreen>
                                   },
                                   child: PaginatedDataTable(
                                     controller: _controllerbottom,
-                                    // rowsPerPage: rowsPerPage,
-                                    onRowsPerPageChanged: (value) {
-                                      setState(() {
-                                        if (value != null) rowsPerPage = value;
-                                      });
-                                    },
+                                    rowsPerPage: rowsPerPage,
+                                    // onRowsPerPageChanged: (value) {
+                                    //   setState(() {
+                                    //     if (value != null) rowsPerPage = value;
+                                    //   });
+                                    // },
                                     availableRowsPerPage: availableRowsPerPage,
                                     showFirstLastButtons: true,
                                     // sortColumnIndex: 5,
@@ -491,46 +492,86 @@ class _OfferSetupScreenState extends State<OfferSetupScreen>
                         ],
                       ),
                     ),
-                    DropdownButton<int>(
-                      value: selectedRowsPerPage,
-                      onChanged: (newValue) {
-                        setState(() {
-                          if (newValue != null) {
-                            selectedRowsPerPage = newValue;
-                            print(selectedRowsPerPage);
-                            rowsPerPage = newValue;
-                          }
-                        });
-                      },
-                      items: availableRowsPerPage
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(
-                            '$value rows',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        );
-                      }).toList(),
-                      icon:
-                          const Icon(Icons.arrow_drop_down, color: Colors.blue),
-                      iconSize: 24,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.blueAccent,
-                      ),
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      dropdownColor: Colors.white,
-                      elevation: 8,
-                      hint: const Text(
-                        'Rows per page',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // Text for "Page size ="
+                        // const Text(
+                        //   'Page size = ',
+                        //   style: TextStyle(
+                        //     fontSize: 16,
+                        //     fontWeight: FontWeight.bold,
+                        //     color: Colors.black,
+                        //   ),
+                        // ),
+                        // Your DropdownButton
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            // Label for "Page Size:"
+                            SizedBox(
+                              height: 30,
+                              width: width * 0.75,
+                            ),
+                            const Text(
+                              'Page Size:',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                                width: 8), // Space between text and dropdown
+                            // DropdownButton with BoxDecoration
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: DropdownButton<int>(
+                                value: selectedRowsPerPage,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    if (newValue != null) {
+                                      selectedRowsPerPage = newValue;
+                                      rowsPerPage = newValue;
+                                      print(selectedRowsPerPage);
+                                    }
+                                  });
+                                },
+                                items: availableRowsPerPage
+                                    .map<DropdownMenuItem<int>>((int value) {
+                                  return DropdownMenuItem<int>(
+                                    value: value,
+                                    child: Text(
+                                      '$value',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  );
+                                }).toList(),
+                                icon: const Icon(Icons.arrow_drop_down,
+                                    color: Colors.grey),
+                                iconSize: 20,
+                                // Removes the default underline
+                                dropdownColor: Colors.white,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                ),
+                                isDense:
+                                    true, // Makes the dropdown more compact
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    )
                   ],
                 );
         },

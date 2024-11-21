@@ -203,7 +203,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
                         size: iconSize ?? item.iconSize ?? 14,
                         color: iconColor ??
                             item.iconColor ??
-                            theme.colorScheme.onSurface,
+                            theme.cheme.onSurface,
                       ),
                   widget.labelDirection == Axis.horizontal
                       ? MySpacing.width(showLabel ? widget.labelSpacing : 0)

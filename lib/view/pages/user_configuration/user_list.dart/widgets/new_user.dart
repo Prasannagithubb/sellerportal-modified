@@ -266,34 +266,34 @@ class _NewUserAddState extends State<NewUserAdd> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       // DropdownButtonFormField
-                                      DropdownButtonFormField<String>(
-                                        decoration: InputDecoration(
-                                          labelText: 'Select a Fruit',
-                                          border: OutlineInputBorder(),
-                                        ),
-                                        items: items.map((String item) {
-                                          return DropdownMenuItem<String>(
-                                            value: item,
-                                            child: Text(item),
-                                          );
-                                        }).toList(),
-                                        value: selectedItem,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedItem = value;
-                                          });
-                                        },
-                                        hint: Text('Choose an option'),
-                                        isExpanded: true,
-                                      ),
+                                      // DropdownButtonFormField<String>(
+                                      //   decoration: InputDecoration(
+                                      //     labelText: 'Select a Fruit',
+                                      //     border: OutlineInputBorder(),
+                                      //   ),
+                                      //   items: items.map((String item) {
+                                      //     return DropdownMenuItem<String>(
+                                      //       value: item,
+                                      //       child: Text(item),
+                                      //     );
+                                      //   }).toList(),
+                                      //   value: selectedItem,
+                                      //   onChanged: (value) {
+                                      //     setState(() {
+                                      //       selectedItem = value;
+                                      //     });
+                                      //   },
+                                      //   hint: Text('Choose an option'),
+                                      //   isExpanded: true,
+                                      // ),
                                       SizedBox(height: 20),
                                       // Display the selected item
-                                      Text(
-                                        selectedItem != null
-                                            ? 'Selected: $selectedItem'
-                                            : 'No item selected',
-                                        style: TextStyle(fontSize: 18),
-                                      ),
+                                      // Text(
+                                      //   selectedItem != null
+                                      //       ? 'Selected: $selectedItem'
+                                      //       : 'No item selected',
+                                      //   style: TextStyle(fontSize: 18),
+                                      // ),
                                       MyText.bodyMedium('Reporting To *'),
                                       MySpacing.height(8),
                                       DropdownButtonFormField(
